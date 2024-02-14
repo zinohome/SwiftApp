@@ -3,12 +3,15 @@ import os
 from functools import lru_cache
 from gettext import GNUTranslations
 from typing import Dict, Set
+from appdef.appdef import Appdef
 
 
 class I18N:
     def __init__(self):
+        appdef = Appdef()
+        applan = appdef.Def.Config.language
         self._locales: Dict[str, Set[GNUTranslations]] = {}
-        self._language: str = self.set_language()
+        self._language: str = self.set_language(applan)
 
     def load_translations(self, translations: Dict[str, GNUTranslations]):
         for language, trans in translations.items():

@@ -9,16 +9,12 @@
 #  @Software: SwiftApp
 import os
 
-from pysondb import PysonDB
 from fastapi import FastAPI
+from sqlmodel import SQLModel
 from starlette.staticfiles import StaticFiles
-
+from core.adminsite import site
 from appdef.appdef import Appdef
 from starlette_exporter import PrometheusMiddleware, handle_metrics
-from jaeger_client import Config as jaeger_config
-from opentracing.scope_managers.contextvars import ContextVarsScopeManager
-from opentracing_instrumentation.client_hooks import install_all_patches
-from starlette_opentracing import StarletteTracingMiddleWare
 from starlette.responses import RedirectResponse
 from fastapi.openapi.docs import (
     get_redoc_html,
@@ -60,23 +56,9 @@ app.add_middleware(
     always_use_int_status=False)
 app.add_route("/metrics", handle_metrics)
 
-# jaeger_tracer
-opentracing_config = jaeger_config(
-    config={
-        "sampler": {"type": "const", "param": 1},
-        "logging": True,
-        "local_agent": {"reporting_host": appdef.Def.Config.jaeger_host},
-    },
-    scope_manager=ContextVarsScopeManager(),
-    service_name="SwiftBuilder-" + appdef.Def.AppName,
-)
-jaeger_tracer = opentracing_config.initialize_tracer()
-install_all_patches()
-app.add_middleware(StarletteTracingMiddleWare, tracer=jaeger_tracer)
-
 # setup app
-from apps import admin
-admin.setup(app)
+#from apps import admin
+#admin.setup(app)
 
 # mount admin app
 site.mount_app(app)
@@ -84,12 +66,10 @@ site.mount_app(app)
 @app.on_event("startup")
 async def startup():
     from core.adminsite import auth
-    await auth.create_role_user(role_key='admin')
-    await auth.create_role_user(role_key='writer')
-    await auth.create_role_user(role_key='reader')
-
-    #from core.adminsite import scheduler
-    #scheduler.start()
+    await site.db.async_run_sync(SQLModel.metadata.create_all, is_session=False)
+    # Create a default test user, please change the password in time!!!
+    await auth.create_role_user('admin')
+    await auth.create_role_user('vip')
 
 @app.get('/')
 async def index():

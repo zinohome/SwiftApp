@@ -10,8 +10,13 @@
 import os
 
 from fastapi import FastAPI
-from fastapi_user_auth.admin import AuthAdminSite
-
+from fastapi_amis_admin.admin import HomeAdmin, DocsAdmin, ReDocsAdmin
+from fastapi_user_auth.admin.site import AuthAdminSite
+from sqlalchemy.ext.asyncio import AsyncEngine
+from starlette.requests import Request
+from core.settings import settings, Settings
+from fastapi_amis_admin.amis.components import App, Flex, ActionType, Drawer, Service
+from fastapi_amis_admin.amis import AmisAPI, SizeEnum
 from core import i18n as _
 from utils.log import log as log
 
@@ -22,7 +27,8 @@ class SwiftAdminSite(AuthAdminSite):
     template_name = TEMP_DIR
 
     def __init__(self, settings: Settings, fastapi: FastAPI = None, engine: AsyncEngine = None):
-        super().__init__(settings, fastapi, engine)
+        #super().__init__(settings, fastapi, engine)
+        super().__init__(settings)
         # 取消注册默认管理类
         self.unregister_admin(HomeAdmin,DocsAdmin, ReDocsAdmin)
         #self.unregister_admin(HomeAdmin, ReDocsAdmin)
@@ -67,7 +73,7 @@ class SwiftAdminSite(AuthAdminSite):
         }])
         return app
 
-
+log.debug(settings)
 site = SwiftAdminSite(settings)
 auth = site.auth
 site.UserAuthApp.page_schema.sort = -99

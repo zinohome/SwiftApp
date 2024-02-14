@@ -57,5 +57,6 @@ if __name__ == '__main__':
     print(appdef.AppName)
     print(appdef.Def.Config)
     print(appdef.Def.DBConnecton.Type)
+    print(appdef.Def.Config.language)
     print(appdef.Defdict)
     print(appdef.Def.Config.api_prefix[1:])
