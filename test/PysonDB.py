@@ -12,4 +12,4 @@
 from pysondb import PysonDB
 
 
-db = PysonDB('../appdef_json/app.json')
+db = PysonDB('../appdef/app.json')
