@@ -1,6 +1,14 @@
 {
   "AppName": "SwiftApp",
-  "Config": {},
+  "AppAltName": "SwiftApp",
+  "Description": "A Swift Application",
+  "Version": "v1.1",
+  "Author": "Zinohome.com",
+  "Config": {
+    "API_Prefix": "/swiftapp",
+    "debug": true,
+    "jaeger_host": "192.168.1.1"
+  },
   "DBConnecton": {
     "Type": "MySQL",
     "Host": "192.168.32.11",
