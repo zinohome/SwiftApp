@@ -30,7 +30,7 @@ from utils.log import log as log
 appdef = Appdef()
 
 # API prefix
-apiprefix = appdef.Def.Config.API_Prefix
+apiprefix = appdef.Def.Config.api_prefix
 if apiprefix is not None:
     if apiprefix.startswith('/'):
         pass

@@ -58,4 +58,4 @@ if __name__ == '__main__':
     print(appdef.Def.Config)
     print(appdef.Def.DBConnecton.Type)
     print(appdef.Defdict)
-    print(appdef.Def.Config.API_Prefix[1:])
+    print(appdef.Def.Config.api_prefix[1:])

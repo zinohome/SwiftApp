@@ -5,7 +5,8 @@
   "Version": "v1.1",
   "Author": "Zinohome.com",
   "Config": {
-    "API_Prefix": "/swiftapp",
+    "language": "zh_CN",
+    "api_prefix": "/swiftapp",
     "debug": true,
     "jaeger_host": "192.168.1.1",
     "allow_origins": "*"
