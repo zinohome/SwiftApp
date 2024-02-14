@@ -12,3 +12,4 @@ starlette_exporter>=0.21.0
 jaeger-client>=4.8.0
 opentracing_instrumentation>=3.3.1
 Starlette-OpenTracing>=0.1.0
+pydantic[dotenv]>=1.10.14

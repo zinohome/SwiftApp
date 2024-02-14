@@ -5,6 +5,7 @@
   "Version": "v1.1",
   "Author": "Zinohome.com",
   "Config": {
+    "listenport": "8000",
     "language": "zh_CN",
     "api_prefix": "/swiftapp",
     "debug": true,
