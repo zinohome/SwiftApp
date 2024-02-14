@@ -73,7 +73,6 @@ class SwiftAdminSite(AuthAdminSite):
         }])
         return app
 
-log.debug(settings)
 site = SwiftAdminSite(settings)
 auth = site.auth
 site.UserAuthApp.page_schema.sort = -99
