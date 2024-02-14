@@ -11,4 +11,4 @@
 from pysondb import PysonDB
 
 
-db = PysonDB('test.json')
+db = PysonDB('appdef/app.json')
