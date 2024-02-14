@@ -7,7 +7,8 @@
   "Config": {
     "API_Prefix": "/swiftapp",
     "debug": true,
-    "jaeger_host": "192.168.1.1"
+    "jaeger_host": "192.168.1.1",
+    "allow_origins": "*"
   },
   "DBConnecton": {
     "Type": "MySQL",
