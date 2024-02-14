@@ -10,6 +10,11 @@
 #  @Software: SwiftApp
 
 from pysondb import PysonDB
+from utils.log import log as log
+import simplejson as json
 
 
-db = PysonDB('../appdef/app.json')
+#db = PysonDB('../appdef/app.json')
+
+if __name__ == '__main__':
+    log.debug(json.load(open('../appdef/app.json')))
