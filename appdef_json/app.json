@@ -1,0 +1,12 @@
+{
+  "AppName": "SwiftApp",
+  "Config": {},
+  "DBConnecton": {
+    "Type": "MySQL",
+    "Host": "192.168.32.11",
+    "Port": "3306",
+    "Name": "swiftapp",
+    "User": "swiftapp",
+    "Password": "passw0rd"
+  }
+}
