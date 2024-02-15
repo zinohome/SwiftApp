@@ -18,7 +18,7 @@
     "language": "zh_CN",
     "amis_cdn": "https://cdn.jsdelivr.net/npm",
     "amis_pkg": "amis@6.0.0",
-    "amis_theme": "cxd",
+    "amis_theme": "ang",
     "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
     "allow_origins": "*"
   },

@@ -14,6 +14,7 @@ from sqlmodel import SQLModel
 
 from core.globals import site
 from core.settings import settings
+from utils.log import log as log
 
 app = FastAPI(debug=settings.debug)
 
