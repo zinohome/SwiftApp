@@ -10,12 +10,14 @@
 
 from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
+from construct.app import App
+from ujtils.log import log as log
 
 # from .models import Category
 
-
+app = App()
 class DemoApp(admin.AdminApp):
-    page_schema = amis.PageSchema(label='Home', icon='fa fa-bolt')
+    page_schema = amis.PageSchema(label='Home', title=f"{app.AppTitle}", icon='fa fa-bolt', sort=99)
     router_prefix = '/home'
 
     def __init__(self, app: "AdminApp"):

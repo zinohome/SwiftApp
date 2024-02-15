@@ -34,6 +34,10 @@ def singleton(cls):
 class App():
     def __init__(self):
         self.AppName = None
+        self.AppTitle = None
+        self.Description = None
+        self.Version = None
+        self.Author = None
         self.Cons = None
         self.Consdict = None
         self.readconfig()
@@ -44,6 +48,10 @@ class App():
                 content = app_file.read()
             app_obj = json.loads(content, object_hook=obj)
             self.AppName = app_obj.AppName
+            self.AppTitle = app_obj.AppTitle
+            self.Description = app_obj.Description
+            self.Version = app_obj.Version
+            self.Author = app_obj.Author
             self.Cons = app_obj
             appdict = json.loads(content)
             self.Consdict = appdict
