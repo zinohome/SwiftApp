@@ -19,7 +19,7 @@ from construct.app import App
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(BACKEND_DIR.__str__())
-app = App()
+appdef = App()
 class Settings(AmisSettings):
     name: str = 'Swiftapp'
     host: str = '127.0.0.1'
@@ -31,7 +31,7 @@ class Settings(AmisSettings):
 os.environ.setdefault("FAA_GLOBALS", "core.globals")
 
 settings = Settings(_env_file=os.path.join(BACKEND_DIR, '.env'))
-for key, value in app.Consdict['Settings'].items():
+for key, value in appdef.Consdict['Settings'].items():
     if key == 'allow_origins':
         settings.__setattr__(key, value.split(","))
     else:

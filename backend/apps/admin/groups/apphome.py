@@ -7,8 +7,6 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-from apps.admin.groups.apphome import AppHome
-from apps.admin.groups.contractadmingroup import Contractadmingroup
 from core.globals import site
 from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
@@ -16,5 +14,10 @@ from construct.app import App
 from ujtils.log import log as log
 
 appdef = App()
+class AppHome(admin.AdminApp):
+    group_schema = 'Home'
+    page_schema = amis.PageSchema(label='Home', title=f"{appdef.AppTitle}", icon='fa fa-bolt', sort=99)
+    router_prefix = '/home'
 
-site.register_admin(AppHome, Contractadmingroup)
+    def __init__(self, app: "AdminApp"):
+        super().__init__(app)
