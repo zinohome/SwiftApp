@@ -10,6 +10,7 @@
 #  @Software: SwiftApp
 
 import os
+
 from loguru import logger as log
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

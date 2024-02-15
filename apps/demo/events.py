@@ -1,6 +1,3 @@
-from sqlalchemy import event
-from sqlalchemy.future import Connection
-
 # from .models import Article
 #
 #
