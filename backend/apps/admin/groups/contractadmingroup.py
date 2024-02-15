@@ -12,7 +12,7 @@ from core.globals import site
 from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
 from construct.app import App
-from ujtils.log import log as log
+from utils.log import log as log
 
 appdef = App()
 class Contractadmingroup(admin.AdminApp):

@@ -89,10 +89,13 @@ from fastapi_amis_admin.crud.utils import (
 from fastapi_amis_admin.utils.functools import cached_property
 from fastapi_amis_admin.utils.pydantic import ModelField, annotation_outer_type, create_model_by_model, deep_update, model_fields
 from fastapi_amis_admin.utils.translation import i18n as _
+from utils.log import log as log
+
 class SwiftAdmin(admin.ModelAdmin):
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         self.enable_bulk_create = True
+        self.schema_read = self.schema_model
 
     async def get_list_table(self, request: Request) -> TableCRUD:
         '''
