@@ -15,7 +15,7 @@ from typing import List, Optional
 
 from fastapi_amis_admin.admin.settings import Settings as AmisSettings
 
-from backend.appdef.appdef import Appdef
+from appdef.appdef import Appdef
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(BACKEND_DIR.__str__())
