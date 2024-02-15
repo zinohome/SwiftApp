@@ -1,3 +1,4 @@
+fastapi_amis_admin[cli]>=0.7.1
 fastapi_amis_admin>=0.7.1
 fastapi_user_auth>=0.7.2
 fastapi-scheduler>=0.0.15

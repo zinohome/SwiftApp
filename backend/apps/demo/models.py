@@ -1,3 +1,9 @@
+from typing import Optional
+from sqlmodel import SQLModel
+from fastapi_amis_admin import amis
+from fastapi_amis_admin.models import Field
+
+
 # Create your models here.
 
 # class Category(SQLModel, table=True):

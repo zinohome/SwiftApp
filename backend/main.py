@@ -1,6 +1,6 @@
+from starlette.responses import RedirectResponse
 from fastapi import FastAPI
 from sqlmodel import SQLModel
-from starlette.responses import RedirectResponse
 
 from core.globals import site
 from core.settings import settings

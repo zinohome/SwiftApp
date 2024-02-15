@@ -1,5 +1,6 @@
-from core.settings import settings
 from sqlalchemy_database import AsyncDatabase, Database
+
+from core.settings import settings
 
 # 创建异步数据库引擎
 async_db = AsyncDatabase.create(
