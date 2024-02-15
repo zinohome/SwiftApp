@@ -16,18 +16,10 @@ from ujtils.log import log as log
 # from .models import Category
 
 app = App()
-class DemoApp(admin.AdminApp):
+class AppHome(admin.AdminApp):
     page_schema = amis.PageSchema(label='Home', title=f"{app.AppTitle}", icon='fa fa-bolt', sort=99)
     router_prefix = '/home'
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
-        # self.register_admin(CategoryAdmin)
 
-
-# Register your models here.
-
-# class CategoryAdmin(admin.ModelAdmin):
-#     page_schema = amis.PageSchema(label='Category', icon='fa fa-folder')
-#     model = Category
-#     search_fields = [Category.name]
