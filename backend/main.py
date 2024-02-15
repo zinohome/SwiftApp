@@ -18,8 +18,8 @@ from core.settings import settings
 app = FastAPI(debug=settings.debug)
 
 # 安装应用
-from apps import demo
-demo.setup(app.router,site)
+from apps import admin
+admin.setup(app.router, site)
 
 # 挂载后台管理系统
 site.mount_app(app)

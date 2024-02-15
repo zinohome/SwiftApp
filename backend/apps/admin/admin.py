@@ -15,8 +15,8 @@ from fastapi_amis_admin.admin import AdminApp
 
 
 class DemoApp(admin.AdminApp):
-    page_schema = amis.PageSchema(label='Demo', icon='fa fa-bolt')
-    router_prefix = '/demo'
+    page_schema = amis.PageSchema(label='Home', icon='fa fa-bolt')
+    router_prefix = '/home'
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)

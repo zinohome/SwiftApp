@@ -17,7 +17,7 @@ def setup(router: APIRouter, admin_app: AdminApp, **kwargs):
     from . import admin, apis, jobs
 
     # 注册路由
-    router.include_router(apis.router, prefix='/demo', tags=['Demo'])
+    router.include_router(apis.router, prefix='/home', tags=['Home'])
     # 注册管理页面
     admin_app.register_admin(admin.DemoApp)
 
