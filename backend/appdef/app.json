@@ -1,0 +1,33 @@
+{
+  "AppName": "SwiftApp",
+  "AppAltName": "SwiftApp",
+  "Description": "A Swift Application",
+  "Version": "v1.1",
+  "Author": "Zinohome.com",
+  "Settings": {
+    "host": "0.0.0.0",
+    "port": 8000,
+    "debug": true,
+    "version": "v1.1",
+    "site_title": "SwiftApp",
+    "site_icon": "https://baidu.gitee.io/amis/static/favicon_b3b0647.png",
+    "site_url": "",
+    "site_path": "/admin",
+    "database_url_async": "mysql+aiomysql://root:passw0rd@192.168.32.11:3306/swiftapp?charset=utf8mb4",
+    "database_url": "mysql+pymysql://root:passw0rd@192.168.32.11:3306/swiftapp?charset=utf8mb4",
+    "language": "zh_CN",
+    "amis_cdn": "https://cdn.jsdelivr.net/npm",
+    "amis_pkg": "amis@6.0.0",
+    "amis_theme": "cxd",
+    "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
+    "allow_origins": "*"
+  },
+  "DBConnecton": {
+    "Type": "MySQL",
+    "Host": "192.168.32.11",
+    "Port": "3306",
+    "Name": "swiftapp",
+    "User": "swiftapp",
+    "Password": "passw0rd"
+  }
+}

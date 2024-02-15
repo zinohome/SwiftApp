@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  #
+#  Copyright (C) 2023 ZinoHome, Inc. All Rights Reserved
+#  #
+#  @Time    : 2023
+#  @Author  : Zhang Jun
+#  @Email   : ibmzhangjun@139.com
+#  @Software: SwiftApp
+
 import os
 import sys
 from pathlib import Path
@@ -5,9 +15,11 @@ from typing import List, Optional
 
 from fastapi_amis_admin.admin.settings import Settings as AmisSettings
 
+from backend.appdef.appdef import Appdef
+
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(BACKEND_DIR.__str__())
-
+appdef = Appdef()
 class Settings(AmisSettings):
     name: str = 'Swiftapp'
     host: str = '127.0.0.1'
@@ -19,3 +31,11 @@ class Settings(AmisSettings):
 os.environ.setdefault("FAA_GLOBALS", "core.globals")
 
 settings = Settings(_env_file=os.path.join(BACKEND_DIR, '.env'))
+for key, value in appdef.Defdict['Settings'].items():
+    if key == 'allow_origins':
+        settings.__setattr__(key, value.split(","))
+    else:
+        settings.__setattr__(key, value)
+
+if __name__ == '__main__':
+    print(settings)
