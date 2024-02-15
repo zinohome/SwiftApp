@@ -73,7 +73,7 @@ from fastapi_amis_admin.amis.types import (
     SchemaNode,
 )
 from fastapi_amis_admin.crud import RouterMixin, SqlalchemyCrud
-from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaFilterT, SchemaUpdateT
+from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaFilterT, SchemaUpdateT, SchemaReadT
 from fastapi_amis_admin.crud.parser import (
     SqlaField,
     TableModelParser,
@@ -90,6 +90,9 @@ from fastapi_amis_admin.utils.functools import cached_property
 from fastapi_amis_admin.utils.pydantic import ModelField, annotation_outer_type, create_model_by_model, deep_update, model_fields
 from fastapi_amis_admin.utils.translation import i18n as _
 class SwiftAdmin(admin.ModelAdmin):
+    def __init__(self, app: "AdminApp"):
+        super().__init__(app)
+        self.enable_bulk_create = True
 
     async def get_list_table(self, request: Request) -> TableCRUD:
         '''
@@ -159,6 +162,7 @@ class SwiftAdmin(admin.ModelAdmin):
             table.columns.extend(link_model_columns)
             table.footable = True
         return table
+
     async def get_read_action(self, request: Request) -> Optional[Action]:
         if not self.schema_read:
             return None
