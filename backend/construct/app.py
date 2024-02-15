@@ -14,7 +14,7 @@ import traceback
 import simplejson as json
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEF_DIR = os.path.join(BASE_DIR, 'appdef')
+DEF_DIR = os.path.join(BASE_DIR, 'construct')
 DEF_PATH = os.path.join(DEF_DIR, 'app.json')
 
 class obj(object):
@@ -31,31 +31,31 @@ def singleton(cls):
     return inner
 
 @singleton
-class Appdef():
+class App():
     def __init__(self):
         self.AppName = None
-        self.Def = None
-        self.Defdict = None
+        self.Cons = None
+        self.Consdict = None
         self.readconfig()
 
     def readconfig(self):
         try:
-            with open(DEF_PATH, 'r', encoding="utf-8") as appdef_file:
-                defcontent = appdef_file.read()
-            appdef_obj = json.loads(defcontent, object_hook=obj)
-            self.AppName = appdef_obj.AppName
-            self.Def = appdef_obj
-            appdef = json.loads(defcontent)
-            self.Defdict = appdef
+            with open(DEF_PATH, 'r', encoding="utf-8") as app_file:
+                content = app_file.read()
+            app_obj = json.loads(content, object_hook=obj)
+            self.AppName = app_obj.AppName
+            self.Cons = app_obj
+            appdict = json.loads(content)
+            self.Consdict = appdict
         except Exception as exp:
             print('Exception at Appdef.readconfig() %s ' % exp)
             traceback.print_exc()
 
 
 if __name__ == '__main__':
-    appdef = Appdef()
-    print(appdef.AppName)
-    print(appdef.Def.Settings)
-    print(appdef.Def.Settings.language)
-    print(appdef.Defdict)
-    print(appdef.Def.DBConnecton.Type)
+    app = App()
+    print(app.AppName)
+    print(app.Cons.Settings)
+    print(app.Cons.Settings.language)
+    print(app.Consdict)
+    print(app.Cons.DBConnecton.Type)
