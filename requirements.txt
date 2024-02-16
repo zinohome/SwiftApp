@@ -1,5 +1,6 @@
 fastapi_amis_admin>=0.7.1
 fastapi_user_auth>=0.7.2
+fastapi-user-auth[jwt]
 fastapi-scheduler>=0.0.15
 pydantic_settings>=2.1.0
 uvicorn>=0.27.1

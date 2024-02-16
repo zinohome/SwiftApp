@@ -94,7 +94,9 @@ from utils.log import log as log
 class SwiftAdmin(admin.ModelAdmin):
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
+        # 启用批量新增
         self.enable_bulk_create = True
+        # 启用查看
         self.schema_read = self.schema_model
 
     async def get_list_table(self, request: Request) -> TableCRUD:
