@@ -15,10 +15,11 @@ from typing import Optional, List, TYPE_CHECKING
 
 from sqlmodel import Relationship
 from sqlmodelx import SQLModel
-from core import i18n as _
 
+from core import i18n as _
+from apps.admin.models.contractsdetail import Contractsdetail
 if TYPE_CHECKING:
-    import Contractsdetail
+    from apps.admin.models.contractsdetail import Contractsdetail
 
 class SwiftSQLModel(SQLModel):
     class Config:

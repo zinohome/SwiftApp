@@ -18,7 +18,7 @@ from sqlmodelx import SQLModel
 from core import i18n as _
 
 if TYPE_CHECKING:
-    import Contracts
+    from apps.admin.models.contracts import Contracts
 
 class SwiftSQLModel(SQLModel):
     class Config:
@@ -30,13 +30,12 @@ class Contractsdetail(SwiftSQLModel, table=True):
     __tablename__ = 'contractsdetail'
     contractdetail_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
                                               amis_table_column='')
-    contract_id: Optional[int] = models.Field(default=None, title='合同ID', primary_key=False, amis_form_item='',
-                                              amis_table_column='')
+    contract_id: Optional[int] = models.Field(default=None, title='合同ID', foreign_key="contracts.contract_id")
     item_number: str = models.Field(default=None, title='品号', nullable=False, amis_form_item='',
                                        amis_table_column='')
     item_name: str = models.Field(default=None, title='名称', nullable=False, amis_form_item='',
                                        amis_table_column='')
-    item_spec: date = models.Field(default=None, title='规格', nullable=False, amis_form_item='',
+    item_spec: str = models.Field(default=None, title='规格', nullable=False, amis_form_item='',
                                    amis_table_column='')
     item_quantity: int = models.Field(default=None, title='数量', nullable=False, amis_form_item='',
                                    amis_table_column='')
@@ -45,3 +44,4 @@ class Contractsdetail(SwiftSQLModel, table=True):
     item_mount: Decimal = models.Field(default=None, title='金额', nullable=False, amis_form_item='',
                                       amis_table_column='')
     cdcontact: "Contracts" = Relationship(back_populates="cddtails")
+

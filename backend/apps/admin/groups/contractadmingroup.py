@@ -8,6 +8,7 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 from apps.admin.pages.contractadmin import ContractAdmin
+from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 from core.globals import site
 from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
@@ -23,3 +24,4 @@ class Contractadmingroup(admin.AdminApp):
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         self.register_admin(ContractAdmin)
+        self.register_admin(ContractdetailAdmin)
