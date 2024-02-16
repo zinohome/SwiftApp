@@ -20,7 +20,7 @@ from fastapi_amis_admin.utils.translation import i18n as _
 
 class ContractAdmin(SwiftAdmin):
     group_schema = None
-    page_schema = PageSchema(label='Contracts', page_title='Contracts', icon='fa fa-border-all')
+    page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
     model = Contracts
     pk_name = 'contract_id'
 

@@ -17,7 +17,7 @@ from utils.log import log as log
 appdef = App()
 class Contractadmingroup(admin.AdminApp):
     group_schema = 'Contract'
-    page_schema = amis.PageSchema(label='Contract', title=f"{appdef.AppTitle}", icon='fa fa-bolt', sort=98)
+    page_schema = amis.PageSchema(label='合同管理', title='合同管理', icon='fa fa-bolt', sort=98)
     router_prefix = '/contract'
 
     def __init__(self, app: "AdminApp"):
