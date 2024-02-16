@@ -16,3 +16,4 @@ opentracing_instrumentation>=3.3.1
 Starlette-OpenTracing>=0.1.0
 pydantic[dotenv]>=1.10.14
 aiomysql>=0.2.0
+sqlmodelx>=0.0.11

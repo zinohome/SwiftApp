@@ -11,18 +11,20 @@
 
 from datetime import date
 from decimal import Decimal
-from utils.amis_admin import models
+
+from fastapi_amis_admin import models
 from typing import Optional
-import sqlmodel
+
+from sqlmodelx import SQLModel
 from core import i18n as _
 
-class BaseSQLModel(sqlmodel.SQLModel):
+class SwiftSQLModel(SQLModel):
     class Config:
         use_enum_values = True
         orm_mode = True
         arbitrary_types_allowed = True
 
-class {{ meta_name|trim|capitalize }}(BaseSQLModel, table=True):
+class {{ meta_name|trim|capitalize }}(SwiftSQLModel, table=True):
     __tablename__ = '{{ meta_name }}'
 {% for column_define in meta_columns %}
 {% if meta_primarykeys|trim|length >0 %}

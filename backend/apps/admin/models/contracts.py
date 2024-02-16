@@ -12,15 +12,18 @@ from decimal import Decimal
 
 from fastapi_amis_admin import models
 from typing import Optional
-import sqlmodel
 
-class BaseSQLModel(sqlmodel.SQLModel):
+from sqlmodelx import SQLModel
+from core import i18n as _
+
+
+class SwiftSQLModel(SQLModel):
     class Config:
         use_enum_values = True
         orm_mode = True
         arbitrary_types_allowed = True
 
-class Contracts(BaseSQLModel, table=True):
+class Contracts(SwiftSQLModel, table=True):
     __tablename__ = 'contracts'
     contract_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='', amis_table_column='')
     customer_name: str = models.Field(default=None, title='客户名称', nullable=False, amis_form_item='', amis_table_column='')
