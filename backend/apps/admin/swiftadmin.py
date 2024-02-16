@@ -92,12 +92,15 @@ from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
 class SwiftAdmin(admin.ModelAdmin):
+
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         # 启用批量新增
         self.enable_bulk_create = True
         # 启用查看
         self.schema_read = self.schema_model
+        # 设置form弹出类型  Drawer | Dialog
+        self.action_type = 'Drawer'
 
     async def get_list_table(self, request: Request) -> TableCRUD:
         '''
@@ -171,83 +174,164 @@ class SwiftAdmin(admin.ModelAdmin):
     async def get_read_action(self, request: Request) -> Optional[Action]:
         if not self.schema_read:
             return None
-        return ActionType.Drawer(
-            icon="fas fa-eye",
-            tooltip=_("View"),
-            drawer=Drawer(
-                title=_("View") + " - " + _(self.page_schema.label),
-                position="right",
-                showCloseButton=False,
-                overlay=False,
-                closeOnOutside=True,
-                size=SizeEnum.lg,
-                resizable=True,
-                body=await self.get_read_form(request),
-            ),
-        )
-
-    async def get_create_action(self, request: Request, bulk: bool = False) -> Optional[Action]:
-        if not bulk:
+        if self.action_type == 'Drawer':
             return ActionType.Drawer(
-                icon="fa fa-plus pull-left",
-                label=_("Create"),
-                level=LevelEnum.primary,
+                icon="fas fa-eye",
+                tooltip=_("View"),
                 drawer=Drawer(
-                    title=_("Create") + " - " + _(self.page_schema.label),
+                    title=_("View") + " - " + _(self.page_schema.label),
                     position="right",
                     showCloseButton=False,
                     overlay=False,
                     closeOnOutside=True,
                     size=SizeEnum.lg,
+                    resizable=True,
+                    body=await self.get_read_form(request),
+                ),
+            )
+        else:
+            return ActionType.Dialog(
+                icon="fas fa-eye",
+                tooltip=_("View"),
+                dialog=Dialog(
+                    title=_("View") + " - " + _(self.page_schema.label),
+                    position="right",
+                    showCloseButton=False,
+                    overlay=False,
+                    closeOnOutside=True,
+                    size=SizeEnum.lg,
+                    resizable=True,
+                    body=await self.get_read_form(request),
+                ),
+            )
+
+    async def get_create_action(self, request: Request, bulk: bool = False) -> Optional[Action]:
+        if not bulk:
+            if self.action_type == 'Drawer':
+                return ActionType.Drawer(
+                    icon="fa fa-plus pull-left",
+                    label=_("Create"),
+                    level=LevelEnum.primary,
+                    drawer=Drawer(
+                        title=_("Create") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_create_form(request, bulk=bulk),
+                    ),
+                )
+            else:
+                return ActionType.Dialog(
+                    icon="fa fa-plus pull-left",
+                    label=_("Create"),
+                    level=LevelEnum.primary,
+                    dialog=Dialog(
+                        title=_("Create") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_create_form(request, bulk=bulk),
+                    ),
+                )
+        if self.action_type == 'Drawer':
+            return ActionType.Drawer(
+                icon="fa fa-plus pull-left",
+                label=_("Bulk Create"),
+                level=LevelEnum.primary,
+                drawer=Drawer(
+                    title=_("Bulk Create") + " - " + _(self.page_schema.label),
+                    position="right",
+                    showCloseButton=False,
+                    overlay=False,
+                    closeOnOutside=True,
+                    size=SizeEnum.full,
                     resizable=True,
                     body=await self.get_create_form(request, bulk=bulk),
                 ),
             )
-        return ActionType.Drawer(
-            icon="fa fa-plus pull-left",
-            label=_("Bulk Create"),
-            level=LevelEnum.primary,
-            drawer=Drawer(
-                title=_("Bulk Create") + " - " + _(self.page_schema.label),
-                position="right",
-                showCloseButton=False,
-                overlay=False,
-                closeOnOutside=True,
-                size=SizeEnum.full,
-                resizable=True,
-                body=await self.get_create_form(request, bulk=bulk),
-            ),
-        )
+        else:
+            return ActionType.Dialog(
+                icon="fa fa-plus pull-left",
+                label=_("Bulk Create"),
+                level=LevelEnum.primary,
+                dialog=Dialog(
+                    title=_("Bulk Create") + " - " + _(self.page_schema.label),
+                    position="right",
+                    showCloseButton=False,
+                    overlay=False,
+                    closeOnOutside=True,
+                    size=SizeEnum.full,
+                    resizable=True,
+                    body=await self.get_create_form(request, bulk=bulk),
+                ),
+            )
 
     async def get_update_action(self, request: Request, bulk: bool = False) -> Optional[Action]:
         if not bulk:
-            return ActionType.Drawer(
-                icon="fa fa-pencil",
-                tooltip=_("Update"),
-                drawer=Drawer(
-                    title=_("Update") + " - " + _(self.page_schema.label),
-                    position="right",
-                    showCloseButton=False,
-                    overlay=False,
-                    closeOnOutside=True,
-                    size=SizeEnum.lg,
-                    resizable=True,
-                    body=await self.get_update_form(request, bulk=bulk),
-                ),
-            )
+            if self.action_type == 'Drawer':
+                return ActionType.Drawer(
+                    icon="fa fa-pencil",
+                    tooltip=_("Update"),
+                    drawer=Drawer(
+                        title=_("Update") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_update_form(request, bulk=bulk),
+                    ),
+                )
+            else:
+                return ActionType.Dialog(
+                    icon="fa fa-pencil",
+                    tooltip=_("Update"),
+                    dialog=Dialog(
+                        title=_("Update") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_update_form(request, bulk=bulk),
+                    ),
+                )
         elif self.bulk_update_fields:
-            return ActionType.Drawer(
-                label=_("Bulk Update"),
-                drawer=Drawer(
-                    title=_("Bulk Update") + " - " + _(self.page_schema.label),
-                    position="right",
-                    showCloseButton=False,
-                    overlay=False,
-                    closeOnOutside=True,
-                    size=SizeEnum.lg,
-                    resizable=True,
-                    body=await self.get_update_form(request, bulk=True),
-                ),
-            )
+            if self.action_type == 'Drawer':
+                return ActionType.Drawer(
+                    label=_("Bulk Update"),
+                    drawer=Drawer(
+                        title=_("Bulk Update") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_update_form(request, bulk=True),
+                    ),
+                )
+            else:
+                return ActionType.Dialog(
+                    label=_("Bulk Update"),
+                    dialog=Dialog(
+                        title=_("Bulk Update") + " - " + _(self.page_schema.label),
+                        position="right",
+                        showCloseButton=False,
+                        overlay=False,
+                        closeOnOutside=True,
+                        size=SizeEnum.lg,
+                        resizable=True,
+                        body=await self.get_update_form(request, bulk=True),
+                    ),
+                )
         else:
             return None
