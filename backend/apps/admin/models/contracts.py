@@ -11,11 +11,14 @@ from datetime import date
 from decimal import Decimal
 
 from fastapi_amis_admin import models
-from typing import Optional
+from typing import Optional, List, TYPE_CHECKING
 
+from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 from core import i18n as _
 
+if TYPE_CHECKING:
+    import Contractsdetail
 
 class SwiftSQLModel(SQLModel):
     class Config:
@@ -55,3 +58,4 @@ class Contracts(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
+    cddtails: List["Contractsdetail"] = Relationship(back_populates="cdcontact")

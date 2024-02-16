@@ -11,11 +11,14 @@ from datetime import date
 from decimal import Decimal
 
 from fastapi_amis_admin import models
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
+from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 from core import i18n as _
 
+if TYPE_CHECKING:
+    import Contracts
 
 class SwiftSQLModel(SQLModel):
     class Config:
@@ -23,35 +26,22 @@ class SwiftSQLModel(SQLModel):
         orm_mode = True
         arbitrary_types_allowed = True
 
-class Contracts(SwiftSQLModel, table=True):
-    __tablename__ = 'contracts'
-    contract_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
+class Contractsdetail(SwiftSQLModel, table=True):
+    __tablename__ = 'contractsdetail'
+    contractdetail_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
                                               amis_table_column='')
-    contact_number: str = models.Field(default=None, title='合同编号', nullable=False, amis_form_item='',
+    contract_id: Optional[int] = models.Field(default=None, title='合同ID', primary_key=False, amis_form_item='',
+                                              amis_table_column='')
+    item_number: str = models.Field(default=None, title='品号', nullable=False, amis_form_item='',
                                        amis_table_column='')
-    contact_type: str = models.Field(default=None, title='合同类型', nullable=False, amis_form_item='',
+    item_name: str = models.Field(default=None, title='名称', nullable=False, amis_form_item='',
                                        amis_table_column='')
-    sign_date: date = models.Field(default=None, title='签约时间', nullable=False, amis_form_item='',
+    item_spec: date = models.Field(default=None, title='规格', nullable=False, amis_form_item='',
                                    amis_table_column='')
-    sign_address: str = models.Field(default=None, title='签约地点', nullable=False, amis_form_item='',
+    item_quantity: int = models.Field(default=None, title='数量', nullable=False, amis_form_item='',
                                    amis_table_column='')
-    customer_name: str = models.Field(default=None, title='甲 方', nullable=False, amis_form_item='',
+    unit_price: Decimal = models.Field(default=None, title='单价', nullable=False, amis_form_item='',
                                       amis_table_column='')
-    supplier_name: str = models.Field(default=None, title='乙 方', nullable=False, amis_form_item='',
+    item_mount: Decimal = models.Field(default=None, title='金额', nullable=False, amis_form_item='',
                                       amis_table_column='')
-    quality_standard:str = models.Field(default=None, title='质 量 标 准', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    delivery_data:str = models.Field(default=None, title='交  货  期', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    package_requirements:str = models.Field(default=None, title='包 装 要 求', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    delivery_address:str = models.Field(default=None, title='交 货 地 点', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    other_agreements:str = models.Field(default=None, title='其它约定事项', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    back_terms:str = models.Field(default=None, title='背面条款', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    dispute_settlements:str = models.Field(default=None, title='争议解决办法', nullable=False, amis_form_item='',
-                                      amis_table_column='')
-    contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
-                                            amis_table_column='')
+    cdcontact: "Contracts" = Relationship(back_populates="cddtails")
