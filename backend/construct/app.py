@@ -64,6 +64,7 @@ if __name__ == '__main__':
     app = App()
     print(app.AppName)
     print(app.Cons.Settings)
+    print(app.Cons.AppVariables[0].CName)
     print(app.Cons.Settings.language)
     print(app.Consdict)
     print(app.Cons.DBConnecton.Type)

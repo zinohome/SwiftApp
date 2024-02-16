@@ -23,6 +23,9 @@ class ContractAdmin(SwiftAdmin):
     page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
     model = Contracts
     pk_name = 'contract_id'
+    pk_label = 'contact_number'
+    list_display = [Contracts.contact_number,Contracts.contact_type,Contracts.customer_name,Contracts.supplier_name,Contracts.sign_date,Contracts.sign_address,Contracts.delivery_data]
+    search_fields = []
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)

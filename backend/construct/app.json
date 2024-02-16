@@ -22,6 +22,20 @@
     "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
     "allow_origins": "*"
   },
+  "AppVariables": [
+    {
+      "Name": "contact_type",
+      "CName": "合同类型",
+      "Type": "List",
+      "Value": "成品内销合同,面料合同,辅料合同"
+    },
+    {
+      "Name": "supplier_name",
+      "CName": "乙方",
+      "Type": "Str",
+      "Value": "诸城恒畅服装厂"
+    }
+  ],
   "DBConnecton": {
     "Type": "MySQL",
     "Host": "192.168.32.11",
