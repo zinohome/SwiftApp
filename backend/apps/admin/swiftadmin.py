@@ -240,11 +240,11 @@ class SwiftAdmin(admin.ModelAdmin):
                     ),
                 )
         if self.action_type == 'Drawer':
-            return ActionType.Drawer(
+            return ActionType.Dialog(
                 icon="fa fa-plus pull-left",
                 label=_("Bulk Create"),
                 level=LevelEnum.primary,
-                drawer=Drawer(
+                dialog=Dialog(
                     title=_("Bulk Create") + " - " + _(self.page_schema.label),
                     position="right",
                     showCloseButton=False,
@@ -306,9 +306,9 @@ class SwiftAdmin(admin.ModelAdmin):
                 )
         elif self.bulk_update_fields:
             if self.action_type == 'Drawer':
-                return ActionType.Drawer(
+                return ActionType.Dialog(
                     label=_("Bulk Update"),
-                    drawer=Drawer(
+                    dialog=Dialog(
                         title=_("Bulk Update") + " - " + _(self.page_schema.label),
                         position="right",
                         showCloseButton=False,
