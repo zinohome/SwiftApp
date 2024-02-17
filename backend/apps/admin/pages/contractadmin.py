@@ -89,7 +89,7 @@ class ContractAdmin(SwiftAdmin):
                 body=[
                     InputTable(
                         name="excel",
-                        showIndex=True,
+                        showIndex=False,
                         columns=columns,
                         addable=True,
                         copyable=True,
@@ -101,6 +101,7 @@ class ContractAdmin(SwiftAdmin):
             detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=d_form)
             detailtabitem.disabled = True
             formtab.tabs.append(detailtabitem)
+
             c_form.body = formtab
         return c_form
 
@@ -117,6 +118,53 @@ class ContractAdmin(SwiftAdmin):
             detailtabitem = amis.Tabs.Item(title=_('合同明细'))
             detailtabitem.disabled = False
             formtab.tabs.append(basictabitem)
+
+            # 构建子表CRUD
+            ocontractdetail = ContractdetailAdmin(self.app)
+            ocontractdetailmodelparser = TableModelParser(ocontractdetail.model)
+            ofields = [field for field in model_fields(ocontractdetail.schema_model).values() if
+                       field.name != ocontractdetail.pk_name]
+            oscope = request.scope.copy()
+            oscope['path'] = '/admin/contract/ContractdetailAdmin'
+            oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
+            orequest = Request(oscope)
+            columns, keys = [], {}
+            for field in ofields:
+                omodelfield = ocontractdetailmodelparser.get_modelfield(field)
+                column = self.amis_parser.as_table_column(omodelfield)
+                if await self.has_update_permission(request, None, None) and omodelfield.name in model_fields(
+                        # type: ignore
+                        ocontractdetail.schema_model
+                ):
+                    if column.type == "switch":
+                        column.disabled = False
+                    column.quickEdit = await self.get_column_quick_edit(orequest, omodelfield)
+                keys[column.name] = "${" + column.label + "}"
+                column.name = column.label
+                columns.append(column)
+            d_form = Form(
+                api=AmisAPI(
+                    method="post",
+                    url=f"{ocontractdetail.router_path}/item",
+                    data={"&": {"$excel": keys}},
+                ),
+                name=CrudEnum.create,
+                mode=DisplayModeEnum.normal,
+                body=[
+                    InputTable(
+                        name="excel",
+                        showIndex=False,
+                        columns=columns,
+                        addable=True,
+                        copyable=True,
+                        editable=True,
+                        removable=True,
+                    ),
+                ],
+            )
+            detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=d_form)
+            detailtabitem.disabled = False
             formtab.tabs.append(detailtabitem)
+
             u_form.body = formtab
         return u_form
