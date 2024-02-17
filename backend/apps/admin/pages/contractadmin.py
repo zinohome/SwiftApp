@@ -7,7 +7,9 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+
 from apps.admin.models.contract import Contract
+from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional
@@ -51,8 +53,28 @@ class ContractAdmin(SwiftAdmin):
             detailtabitem.disabled = True
             formtab.tabs.append(basictabitem)
             formtab.tabs.append(detailtabitem)
+
+            log.debug(self.schema_create)
+            log.debug(self.schema_model)
+            log.debug(self.schema_update)
+            log.debug(ContractdetailAdmin.schema_create)
+            #fields = [field for field in model_fields(self.schema_create).values() if field.name != self.pk_name]
+        return c_form
+
+    async def get_update_form(self, request: Request, bulk: bool = False) -> Form:
+        c_form = await super().get_create_form(request, bulk)
+        if not bulk:
+            formtab = amis.Tabs(tabsMode='line')
+            formtab.tabs = []
+            fieldlist = []
+            for item in c_form.body:
+                fieldlist.append(item)
+            basictabitem = amis.Tabs.Item(title=_('基本信息'), tab=fieldlist)
+            detailtabitem = amis.Tabs.Item(title=_('合同明细'))
+            detailtabitem.disabled = False
+            formtab.tabs.append(basictabitem)
+            formtab.tabs.append(detailtabitem)
             c_form.body = formtab
-            log.debug(c_form.json)
         return c_form
 
 
