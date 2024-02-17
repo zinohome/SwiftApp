@@ -7,7 +7,7 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-from apps.admin.models.contractsdetail import Contractsdetail
+from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional
@@ -21,7 +21,7 @@ from fastapi_amis_admin.utils.translation import i18n as _
 class ContractdetailAdmin(SwiftAdmin):
     group_schema = None
     page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all')
-    model = Contractsdetail
+    model = Contractdetail
     pk_name = 'contractdetail_id'
     pk_label = 'contractdetail_id'
     list_display = []

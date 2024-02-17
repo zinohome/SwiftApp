@@ -17,9 +17,8 @@ from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 
 from core import i18n as _
-from apps.admin.models.contractsdetail import Contractsdetail
-if TYPE_CHECKING:
-    from apps.admin.models.contractsdetail import Contractsdetail
+from apps.admin.models.contractdetail import Contractdetail
+
 
 class SwiftSQLModel(SQLModel):
     class Config:
@@ -27,8 +26,8 @@ class SwiftSQLModel(SQLModel):
         orm_mode = True
         arbitrary_types_allowed = True
 
-class Contracts(SwiftSQLModel, table=True):
-    __tablename__ = 'contracts'
+class Contract(SwiftSQLModel, table=True):
+    __tablename__ = 'contract'
     contract_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
                                               amis_table_column='')
     contact_number: str = models.Field(default=None, title='合同编号', nullable=False, amis_form_item='',
@@ -59,4 +58,4 @@ class Contracts(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
-    cddtails: List["Contractsdetail"] = Relationship(back_populates="cdcontact")
+    cddtail: List["Contractdetail"] = Relationship(back_populates="cdcontract")

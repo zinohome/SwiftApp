@@ -7,7 +7,7 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-from apps.admin.models.contracts import Contracts
+from apps.admin.models.contract import Contract
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional
@@ -21,10 +21,10 @@ from fastapi_amis_admin.utils.translation import i18n as _
 class ContractAdmin(SwiftAdmin):
     group_schema = None
     page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
-    model = Contracts
+    model = Contract
     pk_name = 'contract_id'
     pk_label = 'contact_number'
-    list_display = [Contracts.contact_number,Contracts.contact_type,Contracts.customer_name,Contracts.supplier_name,Contracts.sign_date,Contracts.sign_address,Contracts.delivery_data]
+    list_display = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
     search_fields = []
 
     def __init__(self, app: "AdminApp"):
