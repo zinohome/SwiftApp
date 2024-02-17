@@ -23,9 +23,9 @@ class ContractdetailAdmin(SwiftAdmin):
     page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all')
     model = Contractdetail
     pk_name = 'contractdetail_id'
-    pk_label = 'contractdetail_id'
     list_display = []
     search_fields = []
+
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
