@@ -43,7 +43,65 @@ class ContractAdmin(SwiftAdmin):
             column.quickEdit = None
         return c_list
 
-
+    async def get_read_form(self, request: Request) -> Form:
+        r_form = await super().get_read_form(request)
+        # 构建主表Read
+        formtab = amis.Tabs(tabsMode='line')
+        formtab.tabs = []
+        fieldlist = []
+        for item in r_form.body:
+            if item.name != self.pk_name:
+                fieldlist.append(item)
+        basictabitem = amis.Tabs.Item(title=_('基本信息'), tab=fieldlist)
+        formtab.tabs.append(basictabitem)
+        # 构建子表CRUD
+        ocontractdetail = ContractdetailAdmin(self.app)
+        ocontractdetailmodelparser = TableModelParser(ocontractdetail.model)
+        ofields = [field for field in model_fields(ocontractdetail.schema_model).values() if
+                   field.name != ocontractdetail.pk_name]
+        oscope = request.scope.copy()
+        oscope['path'] = '/admin/contract/ContractdetailAdmin'
+        oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
+        orequest = Request(oscope)
+        columns, keys = [], {}
+        for field in ofields:
+            omodelfield = ocontractdetailmodelparser.get_modelfield(field)
+            column = self.amis_parser.as_table_column(omodelfield)
+            if await self.has_update_permission(request, None, None) and omodelfield.name in model_fields(
+                    # type: ignore
+                    ocontractdetail.schema_model
+            ):
+                if column.type == "switch":
+                    column.disabled = False
+                column.quickEdit = await self.get_column_quick_edit(orequest, omodelfield)
+            keys[column.name] = "${" + column.label + "}"
+            column.name = column.label
+            columns.append(column)
+        d_form = Form(
+            api=AmisAPI(
+                method="post",
+                url=f"{ocontractdetail.router_path}/item",
+                data={"&": {"$excel": keys}},
+            ),
+            name=CrudEnum.create,
+            mode=DisplayModeEnum.normal,
+            body=[
+                InputTable(
+                    name="excel",
+                    showIndex=False,
+                    columns=columns,
+                    addable=False,
+                    copyable=False,
+                    editable=False,
+                    removable=False,
+                ),
+            ],
+        )
+        detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=d_form)
+        detailtabitem.disabled = False
+        formtab.tabs.append(detailtabitem)
+        r_form.body = formtab
+        return r_form
     async def get_create_form(self, request: Request, bulk: bool = False) -> Form:
         c_form = await super().get_create_form(request, bulk)
         if not bulk:
