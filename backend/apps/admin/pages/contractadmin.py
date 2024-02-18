@@ -228,14 +228,3 @@ class ContractAdmin(SwiftAdmin):
             u_form.body = formtab
         return u_form
 
-    async def get_page(self, request: Request) -> Page:
-        page = await super().get_page(request)
-        log.debug(page)
-        log.debug(request.scope)
-        ocontractdetailadmin = ContractdetailAdmin(self.app)
-        log.debug(ocontractdetailadmin.model)
-        oscope = request.scope.copy()
-
-
-
-        return page
