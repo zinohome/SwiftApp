@@ -28,6 +28,7 @@ from typing import (
 )
 from fastapi_amis_admin import admin
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
+from fastapi_amis_admin.admin import ModelAdmin
 from pydantic import BaseModel
 from sqlalchemy import Column, Table, delete, insert
 from sqlalchemy.orm import InstrumentedAttribute, RelationshipProperty
@@ -101,6 +102,7 @@ class SwiftAdmin(admin.ModelAdmin):
         self.schema_read = self.schema_model
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
+
 
     async def get_list_table(self, request: Request) -> TableCRUD:
         '''

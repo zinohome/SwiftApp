@@ -10,6 +10,7 @@
 from fastapi_amis_admin.crud import CrudEnum
 from fastapi_amis_admin.crud.parser import TableModelParser
 from fastapi_amis_admin.utils.pydantic import model_fields
+from pydantic._internal._decorators import mro
 
 from apps.admin.models.contract import Contract
 from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
@@ -18,7 +19,7 @@ from core.globals import site
 from typing import List, Optional
 from fastapi_amis_admin import admin, amis
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
-    TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable
+    TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page
 from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
@@ -226,3 +227,15 @@ class ContractAdmin(SwiftAdmin):
 
             u_form.body = formtab
         return u_form
+
+    async def get_page(self, request: Request) -> Page:
+        page = await super().get_page(request)
+        log.debug(page)
+        log.debug(request.scope)
+        ocontractdetailadmin = ContractdetailAdmin(self.app)
+        log.debug(ocontractdetailadmin.model)
+        oscope = request.scope.copy()
+
+
+
+        return page

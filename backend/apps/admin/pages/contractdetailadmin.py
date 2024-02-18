@@ -7,13 +7,15 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+from fastapi_amis_admin.admin import PageAdmin, ModelAdmin
+
 from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional
 from fastapi_amis_admin import admin
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
-    TableCRUD
+    TableCRUD, Page
 from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
@@ -36,3 +38,4 @@ class ContractdetailAdmin(SwiftAdmin):
         for column in c_list:
             column.quickEdit = None
         return c_list
+
