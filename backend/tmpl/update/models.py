@@ -26,6 +26,7 @@ class BaseUser(PkMixin, CUDTimeMixin, UsernameMixin, PasswordMixin, EmailMixin):
         "",
         title=_("Avatar"),
         max_length=255,
+        # zinohome修改部分
         amis_form_item=InputImage(maxLength=1, maxSize=2 * 1024 * 1024, receiver="/admin/file/upload"),
         amis_table_column=ColumnImage(width=50, height=50, enlargeAble=True),
     )

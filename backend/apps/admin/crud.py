@@ -15,6 +15,7 @@ from apps.admin.models.contractdetail import Contractdetail
 from core.globals import site
 
 from construct.app import App
+from tmpl.update._sqlalchemy import SqlalchemySelector
 from utils.log import log as log
 
 router = APIRouter(prefix='/contract')
@@ -24,3 +25,4 @@ pn = str = 'id' or Contractdetail.__table__.primary_key.columns.keys()[0]
 log.debug(pn)
 contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine).register_crud()
 #router.include_router(contractdetail_crud.router)
+

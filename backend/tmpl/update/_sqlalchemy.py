@@ -107,10 +107,11 @@ class SqlalchemySelector(Generic[TableModelT]):
     pk_name: str = "id"  # Primary key name
     parser: TableModelParser = None  # Table model parser
 
-    def __init__(self, model: Type[TableModelT] = None, fields: List[SqlaField] = None) -> None:
+    def __init__(self, model: Type[TableModelT] = None, pk_name: str = 'id', fields: List[SqlaField] = None) -> None:
         self.model = model or self.model
         assert self.model, "model is None"
         assert hasattr(self.model, "__table__"), "model must be has __table__ attribute."
+        # zinohome修改部分
         if self.model.__table__.primary_key.columns.keys()[0]:
             self.pk_name = self.model.__table__.primary_key.columns.keys()[0]
         else:
@@ -260,13 +261,14 @@ class SqlalchemyCrud(
         self,
         model: Type[TableModelT],
         engine: SqlalchemyDatabase,
+        pk_name: str = 'id',
         fields: List[SqlaField] = None,
         router: APIRouter = None,
     ) -> None:
         self.engine = engine or self.engine
         assert self.engine, "engine is None"
         self.db = get_engine_db(self.engine)
-        SqlalchemySelector.__init__(self, model, fields)
+        SqlalchemySelector.__init__(self, model, pk_name, fields)
         schema_model: Type[SchemaModelT] = self.schema_model or TableModelParser.get_table_model_schema(model)
         BaseCrud.__init__(self, schema_model, router)
         # if self.readonly_fields:

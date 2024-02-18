@@ -46,6 +46,7 @@ class AuthAdminSite(AdminSite):
             className="w-full",
             justify="flex-end",
             alignItems="flex-end",
+            # zinohome修改部分
             items=[
                 app.header,
                 {

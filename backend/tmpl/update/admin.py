@@ -1466,6 +1466,7 @@ class AdminApp(PageAdmin, AdminGroup):
         app = App()
         app.brandName = self.site.settings.site_title
         app.logo = self.site.settings.site_icon
+        # zinohome修改部分
         '''
         app.header = Tpl(
             className="w-full",
