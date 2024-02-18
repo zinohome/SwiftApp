@@ -42,7 +42,7 @@ class SwiftAdmin(admin.ModelAdmin):
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         # 启用批量新增
-        self.enable_bulk_create = True
+        self.enable_bulk_create = False
         # 启用查看
         self.schema_read = self.schema_model
         # 设置form弹出类型  Drawer | Dialog
@@ -123,15 +123,58 @@ class SwiftAdmin(admin.ModelAdmin):
             table.footable = True
         return table
 
-    async def get_sub_list_table(self, subobj, request: Request) -> TableCRUD:
+    async def get_sub_list_table(self, subobj: "SwiftAdmin", request: Request) -> TableCRUD:
         try:
-            table = 'table'
-            oscope = request.scope.copy()
-            oscope['path'] = '/admin/contract/ContractdetailAdmin'
-            oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
-            orequest = Request(oscope)
-            columns=await subobj.get_list_columns(orequest),
-            log.debug(columns)
+            subobj.enable_bulk_create = False
+            subobj.register_crud()
+            headerToolbar = [{"type": "columns-toggler", "align": "left", "draggable": False}]
+            headerToolbar.extend(await subobj.get_actions(request, flag="toolbar"))
+            headerToolbarright = [{"type": "reload", "align": "right"},
+                              {"type": "bulkActions", "align": "right"}]
+            headerToolbar.extend(headerToolbarright)
+            itemActions = []
+            if not subobj.display_item_action_as_column:
+                itemActions = await subobj.get_actions(request, flag="item")
+            if await subobj.has_filter_permission(request, None):
+                filter_form = await subobj.get_list_filter_form(request)
+            api=await subobj.get_list_table_api(request)
+            table = TableCRUD(
+                api=await subobj.get_list_table_api(request),
+                autoFillHeight=True,
+                headerToolbar=headerToolbar,
+                filterTogglable=False,
+                filterDefaultVisible=False,
+                #filter=filter_form,
+                syncLocation=False,
+                keepItemSelectionOnPageChange=True,
+                perPage=subobj.list_per_page,
+                itemActions=itemActions,
+                bulkActions=await subobj.get_actions(request, flag="bulk"),
+                footerToolbar=[
+                    "statistics",
+                    "switch-per-page",
+                    "pagination",
+                    "load-more",
+                    {
+                        "type": "tpl",
+                        "tpl": _("SHOWING ${items|count} OF ${total} RESULT(S)"),
+                        "className": "v-middle",
+                        "align": "right",
+                    },
+                ],
+                columns=await subobj.get_list_columns(request),
+                primaryField=subobj.pk_name,
+                quickSaveItemApi=f"put:{subobj.router_path}/item/${subobj.pk_name}",
+                defaultParams={k: v for k, v in request.query_params.items() if v},
+            )
+            # Append operation column
+            action_columns = await subobj._get_list_columns_for_actions(request)
+            table.columns.extend(action_columns)
+            # Append inline link model column
+            link_model_columns = await subobj._get_list_columns_for_link_model(request)
+            if link_model_columns:
+                table.columns.extend(link_model_columns)
+                table.footable = True
             return table
         except Exception as exp:
             print('Exception at SwiftAdmin.get_sub_list_table() %s ' % exp)

@@ -25,11 +25,17 @@ class ContractdetailAdmin(SwiftAdmin):
     page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all')
     model = Contractdetail
     pk_name = 'contractdetail_id'
+    list_per_page = 50
     list_display = []
     search_fields = []
 
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
-        self.action_type = 'Drawer'
+        # 启用批量新增
+        self.enable_bulk_create = False
+        # 启用查看
+        self.schema_read = None
+        # 设置form弹出类型  Drawer | Dialog
+        self.action_type = 'Dialog'
 
