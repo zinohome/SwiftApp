@@ -33,9 +33,3 @@ class ContractdetailAdmin(SwiftAdmin):
         super().__init__(app)
         self.action_type = 'Drawer'
 
-    async def get_list_columns(self, request: Request) -> List[TableColumn]:
-        c_list = await super().get_list_columns(request)
-        for column in c_list:
-            column.quickEdit = None
-        return c_list
-

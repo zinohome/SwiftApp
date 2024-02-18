@@ -7,44 +7,12 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-import asyncio
-import datetime
-import re
-from functools import lru_cache
+import traceback
 from typing import (
-    Any,
-    Awaitable,
-    Callable,
-    Dict,
-    Generic,
-    Iterable,
-    Iterator,
-    List,
-    Optional,
-    Tuple,
-    Type,
-    TypeVar,
-    Union,
+    Optional, List,
 )
 from fastapi_amis_admin import admin
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
-from fastapi_amis_admin.admin import ModelAdmin
-from pydantic import BaseModel
-from sqlalchemy import Column, Table, delete, insert
-from sqlalchemy.orm import InstrumentedAttribute, RelationshipProperty
-from sqlalchemy.sql.elements import Label
-from sqlalchemy.util import md5_hex
-from sqlalchemy_database import AsyncDatabase, Database
-from starlette import status
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import HTMLResponse, Response
-from starlette.templating import Jinja2Templates
-from typing_extensions import Annotated, Literal
-
-import fastapi_amis_admin
-from fastapi_amis_admin.admin.handlers import register_exception_handlers
-from fastapi_amis_admin.admin.parser import AmisParser
-from fastapi_amis_admin.admin.settings import Settings
 from fastapi_amis_admin.amis.components import (
     Action,
     ActionType,
@@ -66,29 +34,6 @@ from fastapi_amis_admin.amis.components import (
     Tpl, Drawer,
 )
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
-from fastapi_amis_admin.amis.types import (
-    AmisAPI,
-    AmisNode,
-    BaseAmisApiOut,
-    BaseAmisModel,
-    SchemaNode,
-)
-from fastapi_amis_admin.crud import RouterMixin, SqlalchemyCrud
-from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaFilterT, SchemaUpdateT, SchemaReadT
-from fastapi_amis_admin.crud.parser import (
-    SqlaField,
-    TableModelParser,
-    get_python_type_parse,
-)
-from fastapi_amis_admin.crud.schema import BaseApiOut, CrudEnum, Paginator
-from fastapi_amis_admin.crud.utils import (
-    IdStrQuery,
-    SqlalchemyDatabase,
-    get_engine_db,
-    parser_str_set_list,
-)
-from fastapi_amis_admin.utils.functools import cached_property
-from fastapi_amis_admin.utils.pydantic import ModelField, annotation_outer_type, create_model_by_model, deep_update, model_fields
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
@@ -103,6 +48,11 @@ class SwiftAdmin(admin.ModelAdmin):
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
 
+    async def get_list_columns(self, request: Request) -> List[TableColumn]:
+        c_list = await super().get_list_columns(request)
+        for column in c_list:
+            column.quickEdit = None
+        return c_list
 
     async def get_list_table(self, request: Request) -> TableCRUD:
         '''
@@ -172,6 +122,20 @@ class SwiftAdmin(admin.ModelAdmin):
             table.columns.extend(link_model_columns)
             table.footable = True
         return table
+
+    async def get_sub_list_table(self, subobj, request: Request) -> TableCRUD:
+        try:
+            table = 'table'
+            oscope = request.scope.copy()
+            oscope['path'] = '/admin/contract/ContractdetailAdmin'
+            oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
+            orequest = Request(oscope)
+            columns=await subobj.get_list_columns(orequest),
+            log.debug(columns)
+            return table
+        except Exception as exp:
+            print('Exception at SwiftAdmin.get_sub_list_table() %s ' % exp)
+            traceback.print_exc()
 
     async def get_read_action(self, request: Request) -> Optional[Action]:
         if not self.schema_read:
