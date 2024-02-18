@@ -9,12 +9,11 @@
 #  @Software: SwiftApp
 # 注册API
 from fastapi import APIRouter
-from fastapi_amis_admin.crud import SqlalchemyCrud
-
 from apps.admin.models.contractdetail import Contractdetail
 from core.globals import site
 
 from construct.app import App
+from utils.famupdate._sqlalchemy import SqlalchemyCrud
 from utils.log import log as log
 
 router = APIRouter(prefix='/contract')
