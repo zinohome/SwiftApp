@@ -15,7 +15,6 @@ from apps.admin.models.contractdetail import Contractdetail
 from core.globals import site
 
 from construct.app import App
-from tmpl.update._sqlalchemy import SqlalchemySelector
 from utils.log import log as log
 
 router = APIRouter(prefix='/contract')
