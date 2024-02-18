@@ -18,7 +18,7 @@ from construct.app import App
 
 from utils.log import log as log
 
-router = APIRouter(prefix='/contract')
-contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine).register_crud()
-#router.include_router(contractdetail_crud.router)
+router = APIRouter(prefix='/admin/contract')
+#contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine, pk_name='contractdetail_id').register_crud()
+#site.router.include_router(contractdetail_crud.router)
 
