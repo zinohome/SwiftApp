@@ -7,6 +7,10 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+from fastapi import APIRouter
+from fastapi_amis_admin.crud import SqlalchemyCrud
+
+from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.pages.contractadmin import ContractAdmin
 from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 from core.globals import site
@@ -24,3 +28,5 @@ class Contractadmingroup(admin.AdminApp):
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         self.register_admin(ContractAdmin)
+        #self.register_admin(ContractdetailAdmin)
+        #self.
