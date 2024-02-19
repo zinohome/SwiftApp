@@ -64,6 +64,12 @@ class ContractAdmin(SwiftAdmin):
         orequest = Request(oscope)
         contractdetailadmin = ContractdetailAdmin(self.app)
         table =await self.get_sub_list_table(contractdetailadmin, orequest)
+        headerToolbar = [
+            {"type": "columns-toggler", "align": "left", "draggable": False},
+            {"type": "reload", "align": "right"}
+        ]
+        table.headerToolbar = headerToolbar
+        table.itemActions = None
         detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=table)
         detailtabitem.disabled = False
         formtab.tabs.append(detailtabitem)

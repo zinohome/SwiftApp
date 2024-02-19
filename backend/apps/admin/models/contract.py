@@ -58,4 +58,3 @@ class Contract(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
-    cddtail: List["Contractdetail"] = Relationship(back_populates="cdcontract")
