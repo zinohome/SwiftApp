@@ -152,8 +152,6 @@ class SwiftAdmin(admin.ModelAdmin):
             itemActions = []
             if not subobj.display_item_action_as_column:
                 itemActions = await subobj.get_actions(request, flag="item")
-            if await subobj.has_filter_permission(request, None):
-                filter_form = await subobj.get_list_filter_form(request)
             api=await subobj.get_list_table_api(request)
             table = TableCRUD(
                 api=await subobj.get_list_table_api(request),
@@ -161,7 +159,6 @@ class SwiftAdmin(admin.ModelAdmin):
                 headerToolbar=headerToolbar,
                 filterTogglable=False,
                 filterDefaultVisible=False,
-                #filter=filter_form,
                 syncLocation=False,
                 keepItemSelectionOnPageChange=True,
                 perPage=subobj.list_per_page,
