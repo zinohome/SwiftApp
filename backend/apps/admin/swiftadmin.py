@@ -9,7 +9,7 @@
 #  @Software: SwiftApp
 import traceback
 from typing import (
-    Optional, List,
+    Optional, List, Callable,
 )
 from fastapi_amis_admin import admin
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
@@ -34,6 +34,8 @@ from fastapi_amis_admin.amis.components import (
     Tpl, Drawer,
 )
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
+from fastapi_amis_admin.crud import BaseApiOut
+from fastapi_amis_admin.crud.parser import parse_obj_to_schema
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
@@ -344,3 +346,68 @@ class SwiftAdmin(admin.ModelAdmin):
                 )
         else:
             return None
+
+    @property
+    def route_create(self) -> Callable:
+        async def route(
+            request: Request,
+            data: Annotated[Union[List[self.schema_create], self.schema_create], Body()],  # type: ignore
+        ) -> BaseApiOut[Union[int, self.schema_model]]:  # type: ignore
+            if not await self.has_create_permission(request, data):
+                return self.error_no_router_permission(request)
+            if not isinstance(data, list):
+                data = [data]
+            try:
+                items = await self.create_items(request, data)
+            except Exception as error:
+                await self.db.async_rollback()
+                return self.error_execute_sql(request=request, error=error)
+            result = len(items)
+            if result == 1:  # if only one item, return the first item
+                result = await self.db.async_run_sync(lambda _: parse_obj_to_schema(items[0], self.schema_model, refresh=True))
+            return BaseApiOut(data=result)
+
+        return route
+
+    @property
+    def route_read(self) -> Callable:
+        async def route(
+                request: Request,
+                item_id: self.AnnotatedItemIdList,  # type: ignore
+        ):
+            if not await self.has_read_permission(request, item_id):
+                return self.error_no_router_permission(request)
+            items = await self.read_items(request, item_id)
+            return BaseApiOut(data=items if len(items) > 1 else items[0])
+
+        return route
+
+    @property
+    def route_update(self) -> Callable:
+        async def route(
+                request: Request,
+                item_id: self.AnnotatedItemIdList,  # type: ignore
+                data: Annotated[self.schema_update, Body()],  # type: ignore
+        ):
+            if not await self.has_update_permission(request, item_id, data):
+                return self.error_no_router_permission(request)
+            values = await self.on_update_pre(request, data, item_id=item_id)
+            if not values:
+                return self.error_data_handle(request)
+            items = await self.update_items(request, item_id, values)
+            return BaseApiOut(data=len(items))
+
+        return route
+
+    @property
+    def route_delete(self) -> Callable:
+        async def route(
+                request: Request,
+                item_id: self.AnnotatedItemIdList,  # type: ignore
+        ):
+            if not await self.has_delete_permission(request, item_id):
+                return self.error_no_router_permission(request)
+            items = await self.delete_items(request, item_id)
+            return BaseApiOut(data=len(items))
+
+        return route
