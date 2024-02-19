@@ -7,6 +7,7 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+import importlib
 import traceback
 import re
 from enum import Enum
@@ -361,28 +362,27 @@ class SwiftAdmin(admin.ModelAdmin):
         else:
             return None
 
-    @property
-    def route_create(self) -> Callable:
-        async def route(
-            request: Request,
-            data: Annotated[Union[List[self.schema_create], self.schema_create], Body()],  # type: ignore
-        ) -> BaseApiOut[Union[int, self.schema_model]]:  # type: ignore
-            if not await self.has_create_permission(request, data):
-                return self.error_no_router_permission(request)
-            if not isinstance(data, list):
-                data = [data]
-            try:
-                items = await self.create_items(request, data)
-            except Exception as error:
-                await self.db.async_rollback()
-                return self.error_execute_sql(request=request, error=error)
-            result = len(items)
-            if result == 1:  # if only one item, return the first item
-                result = await self.db.async_run_sync(lambda _: parse_obj_to_schema(items[0], self.schema_model, refresh=True))
-            return BaseApiOut(data=result)
-
-        return route
-
+    async def has_parent_permission(self, action, request: Request, **permvar) -> bool:
+        if self.parent_class is None:
+            return True
+        else:
+            parentmodule = importlib.import_module('apps.admin.pages.'+self.parent_class.strip().lower())
+            parentclass = getattr(parentmodule, self.parent_class.strip())(self.app)
+            match action.strip().lower():
+                case 'list':
+                    return await parentclass.has_list_permission(request, permvar['paginator'], permvar['filters'])
+                case 'filter':
+                    return await parentclass.has_filter_permission(request, permvar['filters'])
+                case 'create':
+                    return await parentclass.has_create_permission(request, permvar['data'])
+                case 'read':
+                    return await parentclass.has_read_permission(request, permvar['item_id'])
+                case 'update':
+                    return await parentclass.has_update_permission(request, permvar['item_id'], permvar['data'])
+                case 'delete':
+                    return await parentclass.has_delete_permission(request, permvar['item_id'])
+                case _:
+                    return False
     @property
     def route_list(self) -> Callable:
         async def route(
@@ -391,11 +391,11 @@ class SwiftAdmin(admin.ModelAdmin):
                 paginator: Annotated[self.paginator, Depends()],  # type: ignore
                 filters: Annotated[self.schema_filter, Body()] = None,  # type: ignore
         ):
-            if not await self.has_list_permission(request, paginator, filters):
+            if not (await self.has_parent_permission('list',request,paginator=paginator,filters=filters) and await self.has_list_permission(request, paginator, filters)):
                 return self.error_no_router_permission(request)
             data = ItemListSchema(items=[])
             data.query = request.query_params
-            if await self.has_filter_permission(request, filters):
+            if await self.has_parent_permission('filter',request,filters=filters) and await self.has_filter_permission(request, filters):
                 data.filters = await self.on_filter_pre(request, filters)
                 if data.filters:
                     sel = sel.filter(*self.calc_filter_clause(data.filters))
@@ -413,12 +413,34 @@ class SwiftAdmin(admin.ModelAdmin):
         return route
 
     @property
+    def route_create(self) -> Callable:
+        async def route(
+            request: Request,
+            data: Annotated[Union[List[self.schema_create], self.schema_create], Body()],  # type: ignore
+        ) -> BaseApiOut[Union[int, self.schema_model]]:  # type: ignore
+            if not (await self.has_parent_permission('create',request,data=data) and await self.has_create_permission(request, data)):
+                return self.error_no_router_permission(request)
+            if not isinstance(data, list):
+                data = [data]
+            try:
+                items = await self.create_items(request, data)
+            except Exception as error:
+                await self.db.async_rollback()
+                return self.error_execute_sql(request=request, error=error)
+            result = len(items)
+            if result == 1:  # if only one item, return the first item
+                result = await self.db.async_run_sync(lambda _: parse_obj_to_schema(items[0], self.schema_model, refresh=True))
+            return BaseApiOut(data=result)
+
+        return route
+
+    @property
     def route_read(self) -> Callable:
         async def route(
                 request: Request,
                 item_id: self.AnnotatedItemIdList,  # type: ignore
         ):
-            if not await self.has_read_permission(request, item_id):
+            if not (await self.has_parent_permission('read',request,item_id=item_id) and await self.has_read_permission(request, item_id)):
                 return self.error_no_router_permission(request)
             items = await self.read_items(request, item_id)
             return BaseApiOut(data=items if len(items) > 1 else items[0])
@@ -432,7 +454,7 @@ class SwiftAdmin(admin.ModelAdmin):
                 item_id: self.AnnotatedItemIdList,  # type: ignore
                 data: Annotated[self.schema_update, Body()],  # type: ignore
         ):
-            if not await self.has_update_permission(request, item_id, data):
+            if not (await self.has_parent_permission('update',request,item_id=item_id,data=data) and await self.has_update_permission(request, item_id, data)):
                 return self.error_no_router_permission(request)
             values = await self.on_update_pre(request, data, item_id=item_id)
             if not values:
@@ -448,7 +470,7 @@ class SwiftAdmin(admin.ModelAdmin):
                 request: Request,
                 item_id: self.AnnotatedItemIdList,  # type: ignore
         ):
-            if not await self.has_delete_permission(request, item_id):
+            if not (await self.has_parent_permission('delete',request,item_id=item_id) and await self.has_delete_permission(request, item_id)):
                 return self.error_no_router_permission(request)
             items = await self.delete_items(request, item_id)
             return BaseApiOut(data=len(items))

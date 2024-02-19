@@ -30,8 +30,10 @@ class ContractAdmin(SwiftAdmin):
     page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
     model = Contract
     pk_name = 'contract_id'
+    list_per_page = 50
     list_display = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
     search_fields = []
+    parent_class = None
     tabsMode = TabsModeEnum.card
 
     def __init__(self, app: "AdminApp"):

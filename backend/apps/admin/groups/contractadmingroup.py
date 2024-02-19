@@ -25,13 +25,13 @@ class Contractadmingroup(admin.AdminApp):
     page_schema = amis.PageSchema(label='合同管理', title='合同管理', icon='fa fa-bolt', sort=98)
     router_prefix = '/contract'
 
+
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         self.register_admin(ContractAdmin)
-        self.register_admin(ContractdetailAdmin)
         
-        #contractdetailAdmin_crud = ContractdetailAdmin(self.app).register_crud()
-        #self.router.include_router(contractdetailAdmin_crud.router)
+        contractdetailAdmin_crud = ContractdetailAdmin(self.app).register_crud()
+        self.router.include_router(contractdetailAdmin_crud.router)
 
         '''
         contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine,
