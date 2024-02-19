@@ -18,3 +18,4 @@ from utils.log import log as log
 appdef = App()
 
 site.register_admin(AppHome, Contractadmingroup)
+

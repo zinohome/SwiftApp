@@ -8,8 +8,20 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 import traceback
+import re
+from enum import Enum
 from typing import (
-    Optional, List, Callable,
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    Iterable,
+    List,
+    Optional,
+    Pattern,
+    Tuple,
+    Type,
+    Union,
 )
 from fastapi_amis_admin import admin
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
@@ -34,8 +46,10 @@ from fastapi_amis_admin.amis.components import (
     Tpl, Drawer,
 )
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
-from fastapi_amis_admin.crud import BaseApiOut
+from fastapi_amis_admin.crud import BaseApiOut, ItemListSchema
 from fastapi_amis_admin.crud.parser import parse_obj_to_schema
+from sqlalchemy import func
+from typing_extensions import Annotated, Literal
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
@@ -366,6 +380,35 @@ class SwiftAdmin(admin.ModelAdmin):
             if result == 1:  # if only one item, return the first item
                 result = await self.db.async_run_sync(lambda _: parse_obj_to_schema(items[0], self.schema_model, refresh=True))
             return BaseApiOut(data=result)
+
+        return route
+
+    @property
+    def route_list(self) -> Callable:
+        async def route(
+                request: Request,
+                sel: self.AnnotatedSelect,  # type: ignore
+                paginator: Annotated[self.paginator, Depends()],  # type: ignore
+                filters: Annotated[self.schema_filter, Body()] = None,  # type: ignore
+        ):
+            if not await self.has_list_permission(request, paginator, filters):
+                return self.error_no_router_permission(request)
+            data = ItemListSchema(items=[])
+            data.query = request.query_params
+            if await self.has_filter_permission(request, filters):
+                data.filters = await self.on_filter_pre(request, filters)
+                if data.filters:
+                    sel = sel.filter(*self.calc_filter_clause(data.filters))
+            if paginator.showTotal:
+                data.total = await self.db.async_scalar(sel.with_only_columns(func.count("*")))
+                if data.total == 0:
+                    return BaseApiOut(data=data)
+            orderBy = self._calc_ordering(paginator.orderBy, paginator.orderDir)
+            if orderBy:
+                sel = sel.order_by(*orderBy)
+            sel = sel.limit(paginator.perPage).offset(paginator.offset)
+            result = await self.db.async_execute(sel)
+            return BaseApiOut(data=await self.on_list_after(request, result, data))
 
         return route
 
