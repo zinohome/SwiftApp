@@ -49,12 +49,13 @@ from fastapi_amis_admin.amis.components import (
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
 from fastapi_amis_admin.crud import BaseApiOut, ItemListSchema
 from fastapi_amis_admin.crud.parser import parse_obj_to_schema
-from sqlalchemy import func
+from fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
+from sqlalchemy import func, Select
 from typing_extensions import Annotated, Literal
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
-class SwiftAdmin(admin.ModelAdmin):
+class SwiftAdmin(AuthSelectModelAdmin):
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
@@ -64,6 +65,8 @@ class SwiftAdmin(admin.ModelAdmin):
         self.schema_read = self.schema_model
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
+        # 设置item action
+        self.display_item_action_as_column = False
 
     async def get_list_columns(self, request: Request) -> List[TableColumn]:
         c_list = await super().get_list_columns(request)
@@ -144,6 +147,7 @@ class SwiftAdmin(admin.ModelAdmin):
         try:
             subobj.enable_bulk_create = False
             subobj.register_crud()
+            subobj.display_item_action_as_column = False
             headerToolbar = [{"type": "columns-toggler", "align": "left", "draggable": False}]
             headerToolbar.extend(await subobj.get_actions(request, flag="toolbar"))
             headerToolbarright = [{"type": "reload", "align": "right"},

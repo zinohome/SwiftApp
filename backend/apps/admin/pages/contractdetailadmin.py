@@ -8,6 +8,7 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 from fastapi_amis_admin.admin import PageAdmin, ModelAdmin
+from sqlalchemy import Select
 
 from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
@@ -19,6 +20,7 @@ from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action,
 from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
+from utils.log import log as log
 
 class ContractdetailAdmin(SwiftAdmin):
     group_schema = None
@@ -41,3 +43,9 @@ class ContractdetailAdmin(SwiftAdmin):
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Dialog'
 
+
+    async def get_select(self, request: Request) -> Select:
+        sel = await super().get_select(request)
+        #log.debug(self.read_item(self.model))
+        log.debug(sel)
+        return sel

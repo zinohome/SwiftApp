@@ -131,3 +131,6 @@ class ContractAdmin(SwiftAdmin):
             u_form.body = formtab
         return u_form
 
+    async def get_page(self, request: Request) -> Page:
+        log.debug(await super().get_page(request))
+        return await super().get_page(request)
