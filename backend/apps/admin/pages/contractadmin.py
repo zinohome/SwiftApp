@@ -9,6 +9,7 @@
 #  @Software: SwiftApp
 from fastapi._compat import ModelField
 from fastapi_amis_admin.crud import CrudEnum
+from fastapi_amis_admin.crud.base import SchemaFilterT
 from fastapi_amis_admin.crud.parser import TableModelParser
 from fastapi_amis_admin.utils.pydantic import model_fields
 from pydantic._internal._decorators import mro
@@ -16,7 +17,7 @@ from pydantic._internal._decorators import mro
 from apps.admin.models.contract import Contract
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
-from typing import List, Optional, TYPE_CHECKING, Union
+from typing import List, Optional, TYPE_CHECKING, Union, Dict, Any
 from fastapi_amis_admin import admin, amis
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
     TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page, FormItem, SchemaNode
@@ -49,29 +50,27 @@ class ContractAdmin(SwiftAdmin):
     async def get_read_form(self, request: Request) -> Form:
         r_form = await super().get_read_form(request)
         # 构建主表Read
-        formtab = amis.Tabs(tabsMode='line')
+        formtab = amis.Tabs(tabsMode='strong')
         formtab.tabs = []
         fieldlist = []
         for item in r_form.body:
             if item.name != self.pk_name:
                 fieldlist.append(item)
-        basictabitem = amis.Tabs.Item(title=_('基本信息'), tab=fieldlist)
+        basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
         formtab.tabs.append(basictabitem)
 
         # 构建子表CRUD
-        oscope = request.scope.copy()
-        oscope['path'] = '/admin/contract/ContractdetailAdmin'
-        oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
-        orequest = Request(oscope)
-        contractdetailadmin = ContractdetailAdmin(self.app)
-        table =await self.get_sub_list_table(contractdetailadmin, orequest)
+        table =await self.get_sub_list_table(self.app.get_model_admin('contractdetail'), request)
         headerToolbar = [
             {"type": "columns-toggler", "align": "left", "draggable": False},
             {"type": "reload", "align": "right"}
         ]
         table.headerToolbar = headerToolbar
         table.itemActions = None
-        detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=table)
+        # 增加子表外键过滤
+        table.api.data['contract_id'] = f"${self.pk_name}"
+        # log.debug(table.api)
+        detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
         detailtabitem.disabled = False
         formtab.tabs.append(detailtabitem)
 
@@ -82,22 +81,20 @@ class ContractAdmin(SwiftAdmin):
         c_form = await super().get_create_form(request, bulk)
         if not bulk:
             # 构建主表Create
-            formtab = amis.Tabs(tabsMode='line')
+            formtab = amis.Tabs(tabsMode='strong')
             formtab.tabs = []
             fieldlist = []
             for item in c_form.body:
                 fieldlist.append(item)
-            basictabitem = amis.Tabs.Item(title=_('基本信息'), tab=fieldlist)
+            basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
             formtab.tabs.append(basictabitem)
             '''
             # 构建子表CRUD
-            oscope = request.scope.copy()
-            oscope['path'] = '/admin/contract/ContractdetailAdmin'
-            oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
-            orequest = Request(oscope)
-            contractdetailadmin = ContractdetailAdmin(self.app)
-            table =await self.get_sub_list_table(contractdetailadmin, orequest)
-            detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=table)
+            table =await self.get_sub_list_table(self.app.get_model_admin('contractdetail'), request)
+            #增加子表外键过滤
+            table.api.data['contract_id'] = f"${self.pk_name}"
+            #log.debug(table.api)
+            detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
             detailtabitem.disabled = True
             formtab.tabs.append(detailtabitem)
             '''
@@ -108,27 +105,24 @@ class ContractAdmin(SwiftAdmin):
         u_form = await super().get_update_form(request, bulk)
         if not bulk:
             # 构建主表Update
-            formtab = amis.Tabs(tabsMode='line')
+            formtab = amis.Tabs(tabsMode='strong')
             formtab.tabs = []
             fieldlist = []
             for item in u_form.body:
                 fieldlist.append(item)
-            basictabitem = amis.Tabs.Item(title=_('基本信息'), tab=fieldlist)
-            detailtabitem = amis.Tabs.Item(title=_('合同明细'))
-            detailtabitem.disabled = False
+            basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
             formtab.tabs.append(basictabitem)
 
             # 构建子表CRUD
-            oscope = request.scope.copy()
-            oscope['path'] = '/admin/contract/ContractdetailAdmin'
-            oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
-            orequest = Request(oscope)
-            contractdetailadmin = ContractdetailAdmin(self.app)
-
-            table =await self.get_sub_list_table(contractdetailadmin, orequest)
-            detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=table)
+            table =await self.get_sub_list_table(self.app.get_model_admin('contractdetail'), request)
+            #增加子表外键过滤
+            table.api.data['contract_id'] = f"${self.pk_name}"
+            #log.debug(table.api)
+            detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
             detailtabitem.disabled = False
             formtab.tabs.append(detailtabitem)
 
             u_form.body = formtab
         return u_form
+
+

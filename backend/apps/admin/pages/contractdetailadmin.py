@@ -46,9 +46,12 @@ class ContractdetailAdmin(SwiftAdmin):
         self.action_type = 'Dialog'
 
 
+'''
     async def get_select(self, request: Request) -> Select:
         sel = await super().get_select(request)
         #log.debug(self.detail_mode)
-        log.debug(await self.get_page(request))
-        log.debug(sel.filter(Contractdetail.contract_id == 1))
+        #log.debug(await self.get_page(request))
+        log.debug(self.app.get_model_admin('contract'))
+        #log.debug(sel.filter(Contractdetail.contract_id == 1))
         return sel.filter(Contractdetail.contract_id == 1)
+'''

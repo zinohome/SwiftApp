@@ -67,6 +67,7 @@ class SwiftAdmin(AuthSelectModelAdmin):
         self.action_type = 'Drawer'
         # 设置item action
         self.display_item_action_as_column = False
+        self.bind_model = True
 
     async def get_list_columns(self, request: Request) -> List[TableColumn]:
         c_list = await super().get_list_columns(request)
@@ -146,7 +147,7 @@ class SwiftAdmin(AuthSelectModelAdmin):
     async def get_sub_list_table(self, subobj: "SwiftAdmin", request: Request) -> TableCRUD:
         try:
             subobj.enable_bulk_create = False
-            subobj.register_crud()
+            #subobj.register_crud()
             subobj.display_item_action_as_column = False
             headerToolbar = [{"type": "columns-toggler", "align": "left", "draggable": False}]
             headerToolbar.extend(await subobj.get_actions(request, flag="toolbar"))
@@ -156,7 +157,6 @@ class SwiftAdmin(AuthSelectModelAdmin):
             itemActions = []
             if not subobj.display_item_action_as_column:
                 itemActions = await subobj.get_actions(request, flag="item")
-            api=await subobj.get_list_table_api(request)
             table = TableCRUD(
                 api=await subobj.get_list_table_api(request),
                 autoFillHeight=True,
