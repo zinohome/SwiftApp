@@ -48,6 +48,7 @@ class ContractdetailAdmin(SwiftAdmin):
 
     async def get_select(self, request: Request) -> Select:
         sel = await super().get_select(request)
-        log.debug(self.detail_mode)
+        #log.debug(self.detail_mode)
+        log.debug(await self.get_page(request))
         log.debug(sel.filter(Contractdetail.contract_id == 1))
         return sel.filter(Contractdetail.contract_id == 1)

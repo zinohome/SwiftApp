@@ -7,6 +7,7 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+from fastapi._compat import ModelField
 from fastapi_amis_admin.crud import CrudEnum
 from fastapi_amis_admin.crud.parser import TableModelParser
 from fastapi_amis_admin.utils.pydantic import model_fields
@@ -15,10 +16,10 @@ from pydantic._internal._decorators import mro
 from apps.admin.models.contract import Contract
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, Union
 from fastapi_amis_admin import admin, amis
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
-    TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page
+    TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page, FormItem, SchemaNode
 from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
@@ -123,6 +124,7 @@ class ContractAdmin(SwiftAdmin):
             oscope['raw_path'] = '/admin/contract/ContractdetailAdmin'
             orequest = Request(oscope)
             contractdetailadmin = ContractdetailAdmin(self.app)
+
             table =await self.get_sub_list_table(contractdetailadmin, orequest)
             detailtabitem = amis.Tabs.Item(title=_('合同明细'), tab=table)
             detailtabitem.disabled = False
