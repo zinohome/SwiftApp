@@ -434,7 +434,6 @@ class SwiftAdmin(AuthSelectModelAdmin):
             item_id: self.AnnotatedItemIdList,  # type: ignore
             data: Annotated[self.schema_update, Body()],  # type: ignore
         ):
-            log.debug(data)
             if not await self.has_update_permission(request, item_id, data):
                 return self.error_no_router_permission(request)
             values = await self.on_update_pre(request, data, item_id=item_id)

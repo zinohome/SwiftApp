@@ -11,10 +11,12 @@ from datetime import date
 from decimal import Decimal
 
 from fastapi_amis_admin import models
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, List, TYPE_CHECKING
 
 from sqlmodel import Relationship
 from sqlmodelx import SQLModel
+
+from apps.admin.models.contract import Contract
 from core import i18n as _
 
 class SwiftSQLModel(SQLModel):
@@ -25,10 +27,10 @@ class SwiftSQLModel(SQLModel):
 
 class Contractdetail(SwiftSQLModel, table=True):
     __tablename__ = 'contractdetail'
-    contractdetail_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
-                                              amis_table_column='')
-    contract_id: Optional[int] = models.Field(default=None, title='合同ID', nullable=False, amis_form_item='',
-                                              amis_table_column='')
+    contractdetail_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, nullable=False,
+                                                    amis_form_item='', amis_table_column='')
+    contract_id: Optional[int] = models.Field(default=None, title='合同ID', foreign_key='contract.contract_id', nullable=False,
+                                              amis_form_item='',amis_table_column='')
     item_number: str = models.Field(default=None, title='品号', nullable=False, amis_form_item='',
                                        amis_table_column='')
     item_name: str = models.Field(default=None, title='名称', nullable=False, amis_form_item='',
@@ -41,4 +43,4 @@ class Contractdetail(SwiftSQLModel, table=True):
                                       amis_table_column='')
     item_mount: Decimal = models.Field(default=None, title='金额', nullable=False, amis_form_item='',
                                       amis_table_column='')
-
+    contract: "Contract" = Relationship(back_populates="detail")

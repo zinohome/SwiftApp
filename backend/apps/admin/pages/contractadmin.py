@@ -13,10 +13,9 @@ from fastapi_amis_admin.utils.pydantic import model_fields
 from pydantic._internal._decorators import mro
 
 from apps.admin.models.contract import Contract
-from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 from fastapi_amis_admin import admin, amis
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
     TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page
@@ -24,13 +23,14 @@ from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
+from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 
 class ContractAdmin(SwiftAdmin):
     group_schema = None
     page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
     model = Contract
     pk_name = 'contract_id'
-    list_per_page = 50
+    list_per_page = 10
     list_display = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
     search_fields = []
     parent_class = None
@@ -130,7 +130,3 @@ class ContractAdmin(SwiftAdmin):
 
             u_form.body = formtab
         return u_form
-
-    async def get_page(self, request: Request) -> Page:
-        log.debug(await super().get_page(request))
-        return await super().get_page(request)

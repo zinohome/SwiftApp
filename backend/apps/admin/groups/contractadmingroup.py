@@ -10,7 +10,6 @@
 from fastapi import APIRouter
 from fastapi_amis_admin.crud import SqlalchemyCrud
 
-from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.pages.contractadmin import ContractAdmin
 from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 from core.globals import site

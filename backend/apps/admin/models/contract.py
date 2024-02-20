@@ -17,9 +17,9 @@ from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 
 from core import i18n as _
-from apps.admin.models.contractdetail import Contractdetail
 
-
+if TYPE_CHECKING:
+    from apps.admin.models.contractdetail import Contractdetail
 class SwiftSQLModel(SQLModel):
     class Config:
         use_enum_values = True
@@ -28,7 +28,7 @@ class SwiftSQLModel(SQLModel):
 
 class Contract(SwiftSQLModel, table=True):
     __tablename__ = 'contract'
-    contract_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, amis_form_item='',
+    contract_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, nullable=False, amis_form_item='',
                                               amis_table_column='')
     contact_number: str = models.Field(default=None, title='合同编号', nullable=False, amis_form_item='',
                                        amis_table_column='')
@@ -58,3 +58,4 @@ class Contract(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
+    detail: list["Contractdetail"] = Relationship(back_populates="contract")

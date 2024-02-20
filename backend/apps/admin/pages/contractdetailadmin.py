@@ -10,6 +10,7 @@
 from fastapi_amis_admin.admin import PageAdmin, ModelAdmin
 from sqlalchemy import Select
 
+from apps.admin.models.contract import Contract
 from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
@@ -32,6 +33,7 @@ class ContractdetailAdmin(SwiftAdmin):
     search_fields = []
     parent_class = "ContractAdmin"
     tabsMode = TabsModeEnum.card
+    detail_mode = True
 
 
     def __init__(self, app: "AdminApp"):
@@ -46,6 +48,6 @@ class ContractdetailAdmin(SwiftAdmin):
 
     async def get_select(self, request: Request) -> Select:
         sel = await super().get_select(request)
-        #log.debug(self.read_item(self.model))
-        log.debug(sel)
-        return sel
+        log.debug(self.detail_mode)
+        log.debug(sel.filter(Contractdetail.contract_id == 1))
+        return sel.filter(Contractdetail.contract_id == 1)
