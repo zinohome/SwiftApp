@@ -198,6 +198,18 @@ class SwiftAdmin(AuthSelectModelAdmin):
             print('Exception at SwiftAdmin.get_sub_list_table() %s ' % exp)
             traceback.print_exc()
 
+    async def get_read_form(self, request: Request) -> Form:
+        r_form = await super().get_read_form(request)
+        return r_form
+
+    async def get_create_form(self, request: Request, bulk: bool = False) -> Form:
+        c_form = await super().get_create_form(request, bulk)
+        return c_form
+
+    async def get_update_form(self, request: Request, bulk: bool = False) -> Form:
+        u_form = await super().get_update_form(request, bulk)
+        return u_form
+
     async def get_read_action(self, request: Request) -> Optional[Action]:
         if not self.schema_read:
             return None

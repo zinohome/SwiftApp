@@ -29,8 +29,8 @@ class ContractdetailAdmin(SwiftAdmin):
     model = Contractdetail
     pk_name = 'contractdetail_id'
     list_per_page = 50
-    list_display = []
-    search_fields = []
+    list_display = [Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
+    search_fields = [Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
     parent_class = "ContractAdmin"
     tabsMode = TabsModeEnum.card
     detail_mode = True
@@ -45,13 +45,3 @@ class ContractdetailAdmin(SwiftAdmin):
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Dialog'
 
-
-'''
-    async def get_select(self, request: Request) -> Select:
-        sel = await super().get_select(request)
-        #log.debug(self.detail_mode)
-        #log.debug(await self.get_page(request))
-        log.debug(self.app.get_model_admin('contract'))
-        #log.debug(sel.filter(Contractdetail.contract_id == 1))
-        return sel.filter(Contractdetail.contract_id == 1)
-'''

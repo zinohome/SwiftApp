@@ -7,12 +7,14 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 
 from fastapi_amis_admin import models
 from typing import Optional, List, TYPE_CHECKING
 
+from fastapi_amis_admin.models import Field
+from sqlalchemy import func
 from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 
@@ -58,4 +60,11 @@ class Contract(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
+    create_time: datetime = Field(default_factory=datetime.now, title=_("Create Time"), index=True)
+    update_time: Optional[datetime] = Field(
+        default_factory=datetime.now,
+        title=_("Update Time"),
+        index=True,
+        sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
+    )
     detail: list["Contractdetail"] = Relationship(back_populates="contract")

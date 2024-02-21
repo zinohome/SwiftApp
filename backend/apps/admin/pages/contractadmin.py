@@ -34,7 +34,7 @@ class ContractAdmin(SwiftAdmin):
     pk_name = 'contract_id'
     list_per_page = 10
     list_display = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
-    search_fields = []
+    search_fields = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
     parent_class = None
     tabsMode = TabsModeEnum.card
 
