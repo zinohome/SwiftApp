@@ -8,6 +8,7 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 from fastapi._compat import ModelField
+from fastapi_amis_admin.admin import AdminAction
 from fastapi_amis_admin.crud import CrudEnum
 from fastapi_amis_admin.crud.base import SchemaFilterT
 from fastapi_amis_admin.crud.parser import TableModelParser
@@ -37,6 +38,15 @@ class ContractAdmin(SwiftAdmin):
     search_fields = [Contract.contract_id, Contract.contact_number, Contract.contact_type, Contract.customer_name, Contract.supplier_name, Contract.sign_date, Contract.sign_address, Contract.delivery_data]
     parent_class = None
     tabsMode = TabsModeEnum.card
+    admin_action_maker = [
+        lambda self: AdminAction(
+            admin=self,
+            name="print",
+            label=_("Print"),
+            flags=["item"],
+            getter=lambda request: self.get_print_action(request),
+        )
+    ]
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
@@ -46,6 +56,70 @@ class ContractAdmin(SwiftAdmin):
         self.schema_read = self.schema_model
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
+
+    async def get_print_action(self, request: Request) -> Optional[Action]:
+        if not self.schema_read:
+            return None
+        if self.action_type == 'Drawer':
+            return ActionType.Drawer(
+                icon="fas fa-print",
+                tooltip=_("Print"),
+                drawer=Drawer(
+                    title=_("Print") + " - " + _(self.page_schema.label),
+                    position="right",
+                    showCloseButton=False,
+                    overlay=False,
+                    closeOnOutside=True,
+                    size=SizeEnum.lg,
+                    resizable=True,
+                    body=await self.get_print_form(request),
+                ),
+            )
+        else:
+            return ActionType.Dialog(
+                icon="fas fa-print",
+                tooltip=_("Print"),
+                dialog=Dialog(
+                    title=_("Print") + " - " + _(self.page_schema.label),
+                    position="right",
+                    showCloseButton=False,
+                    overlay=False,
+                    closeOnOutside=True,
+                    size=SizeEnum.lg,
+                    resizable=True,
+                    body=await self.get_print_form(request),
+                ),
+            )
+
+    async def get_print_form(self, request: Request) -> Form:
+        p_form = await super().get_read_form(request)
+        # 构建主表Read
+        formtab = amis.Tabs(tabsMode='strong')
+        formtab.tabs = []
+        fieldlist = []
+        for item in p_form.body:
+            if item.name != self.pk_name:
+                fieldlist.append(item)
+        basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
+        formtab.tabs.append(basictabitem)
+
+        # 构建子表CRUD
+        table = await self.get_sub_list_table(self.app.get_model_admin('contractdetail'), request)
+        headerToolbar = [
+            {"type": "columns-toggler", "align": "left", "draggable": False},
+            {"type": "reload", "align": "right"}
+        ]
+        table.headerToolbar = headerToolbar
+        table.itemActions = None
+        # 增加子表外键过滤
+        table.api.data['contract_id'] = f"${self.pk_name}"
+        #log.debug(table.api)
+        detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
+        detailtabitem.disabled = False
+        formtab.tabs.append(detailtabitem)
+
+        p_form.body = formtab
+        return p_form
 
     async def get_read_form(self, request: Request) -> Form:
         r_form = await super().get_read_form(request)
@@ -69,7 +143,7 @@ class ContractAdmin(SwiftAdmin):
         table.itemActions = None
         # 增加子表外键过滤
         table.api.data['contract_id'] = f"${self.pk_name}"
-        # log.debug(table.api)
+        #log.debug(table.api)
         detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
         detailtabitem.disabled = False
         formtab.tabs.append(detailtabitem)

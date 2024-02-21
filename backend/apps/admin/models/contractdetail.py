@@ -10,7 +10,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 
-from fastapi_amis_admin import models
+from fastapi_amis_admin import models, amis
 from typing import Optional, List, TYPE_CHECKING
 
 from fastapi_amis_admin.models import Field
@@ -32,7 +32,8 @@ class Contractdetail(SwiftSQLModel, table=True):
     contractdetail_id: Optional[int] = models.Field(default=None, title='ID', primary_key=True, nullable=False,
                                                     amis_form_item='', amis_table_column='')
     contract_id: Optional[int] = models.Field(default=None, title='合同ID', foreign_key='contract.contract_id', nullable=False,
-                                              amis_form_item='',amis_table_column='')
+                                              amis_form_item='',
+                                              amis_table_column='')
     item_number: str = models.Field(default=None, title='品号', nullable=False, amis_form_item='',
                                        amis_table_column='')
     item_name: str = models.Field(default=None, title='名称', nullable=False, amis_form_item='',
@@ -45,11 +46,16 @@ class Contractdetail(SwiftSQLModel, table=True):
                                       amis_table_column='')
     item_mount: Decimal = models.Field(default=None, title='金额', nullable=False, amis_form_item='',
                                       amis_table_column='')
-    create_time: datetime = Field(default_factory=datetime.now, title=_("Create Time"), index=True)
+    create_time: datetime = Field(default_factory=datetime.now, title=_("Create Time"), index=True,
+                                         amis_form_item=amis.InputDatetime(disabled=True),
+                                         amis_table_column=''
+                                  )
     update_time: Optional[datetime] = Field(
         default_factory=datetime.now,
         title=_("Update Time"),
         index=True,
         sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
+        amis_form_item=amis.InputDatetime(disabled=True),
+        amis_table_column=''
     )
-    contract: "Contract" = Relationship(back_populates="detail")
+    #contract: "Contract" = Relationship(back_populates="detail")

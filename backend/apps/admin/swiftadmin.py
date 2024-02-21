@@ -24,8 +24,9 @@ from typing import (
     Type,
     Union,
 )
-from fastapi_amis_admin import admin
+from fastapi_amis_admin import admin, amis
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
+from fastapi_amis_admin.admin import AdminAction
 from fastapi_amis_admin.amis.components import (
     Action,
     ActionType,

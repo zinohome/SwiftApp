@@ -10,7 +10,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 
-from fastapi_amis_admin import models
+from fastapi_amis_admin import models, amis
 from typing import Optional, List, TYPE_CHECKING
 
 from fastapi_amis_admin.models import Field
@@ -60,11 +60,16 @@ class Contract(SwiftSQLModel, table=True):
                                       amis_table_column='')
     contract_amount: Decimal = models.Field(default=None, title='合同金额', nullable=False, amis_form_item='',
                                             amis_table_column='')
-    create_time: datetime = Field(default_factory=datetime.now, title=_("Create Time"), index=True)
-    update_time: Optional[datetime] = Field(
+    create_time: datetime = models.Field(default_factory=datetime.now, title=_("Create Time"), index=True,
+                                         amis_form_item=amis.InputDatetime(disabled=True),
+                                         amis_table_column=''
+                                         )
+    update_time: Optional[datetime] = models.Field(
         default_factory=datetime.now,
         title=_("Update Time"),
         index=True,
         sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
+        amis_form_item=amis.InputDatetime(disabled=True),
+        amis_table_column=''
     )
-    detail: list["Contractdetail"] = Relationship(back_populates="contract")
+    #detail: list["Contractdetail"] = Relationship(back_populates="contract")
