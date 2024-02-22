@@ -45,3 +45,5 @@ class ContractdetailAdmin(SwiftAdmin):
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
 
+
+
