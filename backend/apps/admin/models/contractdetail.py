@@ -18,7 +18,6 @@ from sqlalchemy import func
 from sqlmodel import Relationship
 from sqlmodelx import SQLModel
 
-from apps.admin.models.contract import Contract
 from core import i18n as _
 
 class SwiftSQLModel(SQLModel):

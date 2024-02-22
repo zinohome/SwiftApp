@@ -169,6 +169,7 @@ class SwiftAdmin(AuthSelectModelAdmin):
                 perPage=subobj.list_per_page,
                 itemActions=itemActions,
                 bulkActions=await subobj.get_actions(request, flag="bulk"),
+                footable=True,
                 footerToolbar=[
                     "statistics",
                     "switch-per-page",

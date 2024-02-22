@@ -20,8 +20,7 @@ from sqlmodelx import SQLModel
 
 from core import i18n as _
 
-if TYPE_CHECKING:
-    from apps.admin.models.contractdetail import Contractdetail
+
 class SwiftSQLModel(SQLModel):
     class Config:
         use_enum_values = True

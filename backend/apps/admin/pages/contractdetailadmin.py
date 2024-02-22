@@ -29,8 +29,8 @@ class ContractdetailAdmin(SwiftAdmin):
     model = Contractdetail
     pk_name = 'contractdetail_id'
     list_per_page = 50
-    list_display = [Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
-    search_fields = [Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
+    list_display = [Contractdetail.contract_id, Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
+    search_fields = [Contractdetail.contract_id, Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
     parent_class = "ContractAdmin"
     tabsMode = TabsModeEnum.card
     detail_mode = True
@@ -43,5 +43,5 @@ class ContractdetailAdmin(SwiftAdmin):
         # 启用查看
         self.schema_read = None
         # 设置form弹出类型  Drawer | Dialog
-        self.action_type = 'Dialog'
+        self.action_type = 'Drawer'
 

@@ -60,65 +60,55 @@ class ContractAdmin(SwiftAdmin):
     async def get_print_action(self, request: Request) -> Optional[Action]:
         if not self.schema_read:
             return None
-        if self.action_type == 'Drawer':
-            return ActionType.Drawer(
-                icon="fas fa-print",
-                tooltip=_("Print"),
-                drawer=Drawer(
-                    title=_("Print") + " - " + _(self.page_schema.label),
-                    position="right",
-                    showCloseButton=False,
-                    overlay=False,
-                    closeOnOutside=True,
-                    size=SizeEnum.lg,
-                    resizable=True,
-                    body=await self.get_print_form(request),
-                ),
-            )
-        else:
-            return ActionType.Dialog(
-                icon="fas fa-print",
-                tooltip=_("Print"),
-                dialog=Dialog(
-                    title=_("Print") + " - " + _(self.page_schema.label),
-                    position="right",
-                    showCloseButton=False,
-                    overlay=False,
-                    closeOnOutside=True,
-                    size=SizeEnum.lg,
-                    resizable=True,
-                    body=await self.get_print_form(request),
-                ),
-            )
+        actiontype = ActionType.Dialog(
+            icon="fas fa-print",
+            tooltip=_("Print"),
+            dialog=Dialog(
+                title=_("Print") + " - " + _(self.page_schema.label),
+                size=SizeEnum.lg,
+                actions=[
+                    {
+                        "type": "button",
+                        "actionType": "cancel",
+                        "label": "取消",
+                        "primary": False
+                    },
+                    {
+                        "type": "button",
+                        "label": "打印",
+                        "onEvent": {
+                          "click": {
+                              "actions":[
+                                  {
+                                      "actionType": "custom",
+                                      "ignoreError": False,
+                                      "script": "doAction(javascrīpt:window.print());"
+                                  }
+                              ]
+                          }
+                        },
+                        "primary": True
+                    }
+                ],
+                body=await self.get_print_form(request),
+            ),
+        )
+        return actiontype
 
     async def get_print_form(self, request: Request) -> Form:
         p_form = await super().get_read_form(request)
+        p_form.columnCount = 2
         # 构建主表Read
-        formtab = amis.Tabs(tabsMode='strong')
-        formtab.tabs = []
-        fieldlist = []
-        for item in p_form.body:
-            if item.name != self.pk_name:
-                fieldlist.append(item)
-        basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
-        formtab.tabs.append(basictabitem)
-
         # 构建子表CRUD
         table = await self.get_sub_list_table(self.app.get_model_admin('contractdetail'), request)
-        headerToolbar = [
-            {"type": "columns-toggler", "align": "left", "draggable": False},
-            {"type": "reload", "align": "right"}
-        ]
-        table.headerToolbar = headerToolbar
+        table.headerToolbar = []
+        table.footerToolbar = []
+        table.affixHeader = True
         table.itemActions = None
+        table.columnsTogglable = False
         # 增加子表外键过滤
         table.api.data['contract_id'] = f"${self.pk_name}"
-        #log.debug(table.api)
-        detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
-        detailtabitem.disabled = False
-        formtab.tabs.append(detailtabitem)
-
-        p_form.body = formtab
+        p_form.body.append(table)
         return p_form
 
     async def get_read_form(self, request: Request) -> Form:
@@ -147,7 +137,6 @@ class ContractAdmin(SwiftAdmin):
         detailtabitem = amis.Tabs.Item(title=_('合同明细'), icon='fa fa-square', body=table)
         detailtabitem.disabled = False
         formtab.tabs.append(detailtabitem)
-
         r_form.body = formtab
         return r_form
 
