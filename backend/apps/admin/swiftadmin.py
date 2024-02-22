@@ -49,6 +49,7 @@ from fastapi_amis_admin.amis.components import (
 )
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
 from fastapi_amis_admin.crud import BaseApiOut, ItemListSchema
+from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
 from fastapi_amis_admin.crud.parser import parse_obj_to_schema
 from fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
 from sqlalchemy import func, Select
@@ -470,3 +471,19 @@ class SwiftAdmin(AuthSelectModelAdmin):
             return BaseApiOut(data=len(items))
 
         return route
+
+    async def on_create_pre(self, request: Request, obj: SchemaCreateT, **kwargs) -> Dict[str, Any]:
+        data = await super().on_create_pre(request, obj)
+        log.debug(data)
+        return data
+
+    async def on_update_pre(
+            self,
+            request: Request,
+            obj: SchemaUpdateT,
+            item_id: Union[List[str], List[int]],
+            **kwargs,
+    ) -> Dict[str, Any]:
+        data = await super().on_update_pre(request, obj, item_id)
+        log.debug(data)
+        return data

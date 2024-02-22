@@ -64,13 +64,19 @@ class ContractAdmin(SwiftAdmin):
             icon="fas fa-print",
             tooltip=_("Print"),
             dialog=Dialog(
-                title=_("Print") + " - " + _(self.page_schema.label),
+                title=_(self.page_schema.label),
                 size=SizeEnum.lg,
+                showCloseButton=False,
                 actions=[
                     {
                         "type": "button",
                         "actionType": "cancel",
                         "label": "取消",
+                        "Style": {
+                            ".noprint": {
+                                "display": "none"
+                            }
+                        },
                         "primary": False
                     },
                     {
@@ -82,10 +88,15 @@ class ContractAdmin(SwiftAdmin):
                                   {
                                       "actionType": "custom",
                                       "ignoreError": False,
-                                      "script": "doAction(javascrīpt:window.print());"
+                                      "script": "doAction(window.print());"
                                   }
                               ]
                           }
+                        },
+                        "wrapperCustomStyle": {
+                            ".noprint": {
+                                "display": "none"
+                            }
                         },
                         "primary": True
                     }
