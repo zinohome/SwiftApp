@@ -25,28 +25,47 @@ from starlette.requests import Request
 import simplejson as json
 from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
-from apps.admin.models.contractdetail import Contractdetail
+from apps.admin.models.{{ name|trim }} import {{ model|trim}}
 
 
-class ContractdetailAdmin(SwiftAdmin):
-    group_schema = "Contract"
-    page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all', sort=97)
-    model = Contractdetail
-    pk_name = 'contractdetail_id'
-    list_per_page = 50
-    list_display = [Contractdetail.contract_id, Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
-    search_fields = [Contractdetail.contract_id, Contractdetail.item_number, Contractdetail.item_name, Contractdetail.item_spec, Contractdetail.item_quantity, Contractdetail.unit_price, Contractdetail.item_mount]
-    parent_class = None
+class {{ name|trim|capitalize}}Admin(SwiftAdmin):
+{% if group_schema|trim != 'None' %}
+    group_schema = "{{ group_schema }}"
+{% else %}
+    group_schema = None
+{% endif %}
+    page_schema = PageSchema(label='{{ label }}', page_title='{{ title }}', icon='{{ icon }}', sort={{ sort }})
+    model = {{ model }}
+    pk_name = '{{ pk_name }}'
+    list_per_page = {{ list_per_page }}
+    list_display = [{{ list_display }}]
+    search_fields = [{{ search_fields }}]
+    parent_class = {{ parent_class }}
     tabsMode = TabsModeEnum.card
+{% if print == True %}
+    admin_action_maker = [
+        lambda self: AdminAction(
+            admin=self,
+            name="print",
+            label=_("Print"),
+            flags=["item"],
+            getter=lambda request: self.get_print_action(request),
+        )
+    ]
+{% endif %}
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
         # 启用批量新增
-        self.enable_bulk_create = False
+        self.enable_bulk_create = {{ enable_bulk_create }}
         # 启用查看
+{% if print == True %}
+        self.schema_read = self.schema_model
+{% else %}
         self.schema_read = None
+{% endif %}
         # 设置form弹出类型  Drawer | Dialog
-        self.action_type = 'Drawer'
+        self.action_type = '{{ action_type }}'
 
 
     async def get_print_action(self, request: Request) -> Optional[Action]:
@@ -154,6 +173,22 @@ class ContractdetailAdmin(SwiftAdmin):
                 fieldlist.append(item)
         basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
         formtab.tabs.append(basictabitem)
+{% for sub in sub_include %}
+        # 构建子表CRUD - {{ sub.table_name }}
+        {{ sub.table_name }}_table =await self.get_sub_list_table(self.app.get_model_admin('{{ sub.table_name }}'), request)
+        headerToolbar = [
+            {"type": "columns-toggler", "align": "left", "draggable": False},
+            {"type": "reload", "align": "right"}
+        ]
+        {{ sub.table_name }}_table.headerToolbar = headerToolbar
+        {{ sub.table_name }}_table.itemActions = None
+        # 增加子表外键过滤
+        {% if sub.foreign_key_filter|trim == 'None' %}#{% endif %}        {{ sub.table_name }}_table.api.data['{{ sub.foreign_key_filter }}'] = f"${self.pk_name}"
+        #log.debug(table.api)
+        {{ sub.table_name }}_tabitem = amis.Tabs.Item(title=_('{{ sub.title }}'), icon='{{ sub.icon }}', body={{ sub.table_name }}_table)
+        {{ sub.table_name }}_tabitem.disabled = False
+        formtab.tabs.append({{ sub.table_name }}_tabitem)
+{% endfor %}
         r_form.body = formtab
         return r_form
 
@@ -183,5 +218,16 @@ class ContractdetailAdmin(SwiftAdmin):
                 fieldlist.append(item)
             basictabitem = amis.Tabs.Item(title=_('基本信息'), icon='fa fa-square', body=fieldlist)
             formtab.tabs.append(basictabitem)
+{% for sub in sub_include %}
+            # 构建子表CRUD - {{ sub.table_name }}
+            {{ sub.table_name }}_table =await self.get_sub_list_table(self.app.get_model_admin('{{ sub.table_name }}'), request)
+            #增加子表外键过滤
+{% if sub.foreign_key_filter | trim == 'None' %}#{% endif %}            {{ sub.table_name }}_table.api.data['{{ sub.foreign_key_filter }}'] = f"${self.pk_name}"
+            #log.debug(table.api)
+            {{ sub.table_name }}_tabitem = amis.Tabs.Item(title=_('{{ sub.title }}'), icon='{{ sub.icon }}', body={{ sub.table_name }}_table)
+            {{ sub.table_name }}_tabitem.disabled = False
+            formtab.tabs.append({{ sub.table_name }}_tabitem)
+{% endfor %}
             u_form.body = formtab
         return u_form
+
