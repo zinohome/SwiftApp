@@ -13,7 +13,38 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "create_time",
+      "optional": false,
+      "type": "datetime",
+      "default_factory": "datetime.now",
+      "default": "None",
+      "title": "Create Time",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": true,
+      "sa_column_kwargs": null,
+      "amis_form_item": "amis.InputDatetime(disabled=True)",
+      "amis_table_column": ""
+    },
+    {
+      "name": "update_time",
+      "optional": true,
+      "type": "datetime",
+      "default_factory": "datetime.now",
+      "default": "None",
+      "title": "Update Time",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": true,
+      "sa_column_kwargs": "{\"onupdate\": func.now(), \"server_default\": func.now()}",
+      "amis_form_item": "amis.InputDatetime(disabled=True)",
       "amis_table_column": ""
     },
     {
@@ -27,6 +58,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -41,6 +73,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -55,6 +88,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -69,6 +103,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -83,6 +118,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -97,6 +133,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -111,6 +148,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -125,6 +163,7 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     },
@@ -139,9 +178,84 @@
       "foreign_key": null,
       "nullable": false,
       "index": false,
+      "sa_column_kwargs": null,
+      "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "delivery_address",
+      "optional": false,
+      "type": "str",
+      "default_factory": null,
+      "default": "None",
+      "title": "交货地点",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": false,
+      "sa_column_kwargs": null,
+      "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "other_agreements",
+      "optional": false,
+      "type": "str",
+      "default_factory": null,
+      "default": "None",
+      "title": "其它约定事项",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": false,
+      "sa_column_kwargs": null,
+      "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "back_terms",
+      "optional": false,
+      "type": "str",
+      "default_factory": null,
+      "default": "None",
+      "title": "背面条款",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": false,
+      "sa_column_kwargs": null,
+      "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "dispute_settlements",
+      "optional": false,
+      "type": "str",
+      "default_factory": null,
+      "default": "None",
+      "title": "争议解决办法",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": false,
+      "sa_column_kwargs": null,
+      "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "contract_amount",
+      "optional": false,
+      "type": "Decimal",
+      "default_factory": null,
+      "default": "None",
+      "title": "合同金额",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": false,
+      "sa_column_kwargs": null,
       "amis_form_item": "",
       "amis_table_column": ""
     }
-
   ]
 }
