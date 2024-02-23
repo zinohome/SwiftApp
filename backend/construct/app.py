@@ -41,6 +41,7 @@ class App():
         self.Cons = None
         self.Consdict = None
         self.readconfig()
+        self.lodmodels()
 
     def readconfig(self):
         try:
@@ -55,13 +56,38 @@ class App():
             self.Cons = app_obj
             appdict = json.loads(content)
             self.Consdict = appdict
+            self.Models = []
+            self.Modeldicts = []
         except Exception as exp:
             print('Exception at Appdef.readconfig() %s ' % exp)
+            traceback.print_exc()
+
+    def lodmodels(self):
+        try:
+            for model in self.Cons.Models[0].models:
+                filepath = os.path.join(DEF_DIR,model.model_file)
+                with open(filepath, 'r', encoding="utf-8") as model_file:
+                    content = model_file.read()
+                    self.Models.append(json.loads(content, object_hook=obj))
+                    self.Modeldicts.append(json.loads(content))
+                if len(model.submodels) > 0:
+                    for submodel in model.submodels:
+                        filepath = os.path.join(DEF_DIR, submodel.model_file)
+                        with open(filepath, 'r', encoding="utf-8") as submodel_file:
+                            content = submodel_file.read()
+                            self.Models.append(json.loads(content, object_hook=obj))
+                            self.Modeldicts.append(json.loads(content))
+        except Exception as exp:
+            print('Exception at Appdef.lodmodels() %s ' % exp)
             traceback.print_exc()
 
 
 if __name__ == '__main__':
     app = App()
+    print(app.Consdict)
+    print(app.Consdict['Models'])
+    print(app.Modeldicts)
+    '''
     print(app.AppName)
     print(app.Cons.Settings)
     print(app.Cons.AppVariables[0].cname)
@@ -71,3 +97,4 @@ if __name__ == '__main__':
     print(app.Cons.Models[0].models[0].name)
     print(app.Cons.Models[0].models[0].submodels[0].name)
     print(app.Cons.Models[0].models[0].submodels[0].model_file)
+    '''
