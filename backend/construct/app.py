@@ -95,6 +95,7 @@ class App():
         tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
         # 输出目录 backend/construct/output
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
+        log.debug("Generate models Starting ...")
         try:
             for model in self.Modeldicts:
                 log.debug("Generate model for table: %s" % model['model_name'])
@@ -106,6 +107,7 @@ class App():
                     gencodefile.write(gencode)
                     gencodefile.close()
                 #log.debug(gencode)
+            log.debug("Generate models Completed...")
         except Exception as exp:
             print('Exception at Appdef.gen_models() %s ' % exp)
             traceback.print_exc()
@@ -121,17 +123,9 @@ class App():
         tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
         # 输出目录 backend/construct/output
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
+        log.debug("Generate groups Starting ...")
         try:
-            for model in self.Modeldicts:
-                log.debug("Generate Group for group: %s" % model['model_name'])
-                env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
-                template = env.get_template('model_tmpl.py')
-                gencode = template.render(model)
-                modelfilepath = os.path.abspath(os.path.join(outputpath, 'models/'+model['tablename'] + ".py"))
-                with open(modelfilepath, 'w', encoding='utf-8') as gencodefile:
-                    gencodefile.write(gencode)
-                    gencodefile.close()
-                #log.debug(gencode)
+            log.debug("Generate groups Completed...")
         except Exception as exp:
             print('Exception at Appdef.gen_groups() %s ' % exp)
             traceback.print_exc()
@@ -144,6 +138,7 @@ if __name__ == '__main__':
     print(app.Consdict['Models'])
     print(app.Modeldicts)
     app.gen_models()
+    app.gen_groups()
     '''
     print(app.AppName)
     print(app.Cons.Settings)
