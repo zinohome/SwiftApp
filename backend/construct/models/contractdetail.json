@@ -18,36 +18,6 @@
       "amis_table_column": ""
     },
     {
-      "name": "create_time",
-      "optional": false,
-      "type": "datetime",
-      "default_factory": "datetime.now",
-      "default": "None",
-      "title": "Create Time",
-      "primary_key": false,
-      "foreign_key": null,
-      "nullable": false,
-      "index": true,
-      "sa_column_kwargs": null,
-      "amis_form_item": "amis.InputDatetime(disabled=True)",
-      "amis_table_column": ""
-    },
-    {
-      "name": "update_time",
-      "optional": true,
-      "type": "datetime",
-      "default_factory": "datetime.now",
-      "default": "None",
-      "title": "Update Time",
-      "primary_key": false,
-      "foreign_key": null,
-      "nullable": false,
-      "index": true,
-      "sa_column_kwargs": "{\"onupdate\": func.now(), \"server_default\": func.now()}",
-      "amis_form_item": "amis.InputDatetime(disabled=True)",
-      "amis_table_column": ""
-    },
-    {
       "name": "contract_id",
       "optional": true,
       "type": "int",
@@ -150,6 +120,36 @@
       "index": false,
       "sa_column_kwargs": null,
       "amis_form_item": "",
+      "amis_table_column": ""
+    },
+    {
+      "name": "create_time",
+      "optional": false,
+      "type": "datetime",
+      "default_factory": "datetime.now",
+      "default": "None",
+      "title": "Create Time",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": true,
+      "sa_column_kwargs": null,
+      "amis_form_item": "amis.InputDatetime(disabled=True)",
+      "amis_table_column": ""
+    },
+    {
+      "name": "update_time",
+      "optional": true,
+      "type": "datetime",
+      "default_factory": "datetime.now",
+      "default": "None",
+      "title": "Update Time",
+      "primary_key": false,
+      "foreign_key": null,
+      "nullable": false,
+      "index": true,
+      "sa_column_kwargs": "{\"onupdate\": func.now(), \"server_default\": func.now()}",
+      "amis_form_item": "amis.InputDatetime(disabled=True)",
       "amis_table_column": ""
     }
   ]

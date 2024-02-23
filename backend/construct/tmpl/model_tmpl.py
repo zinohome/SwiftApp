@@ -41,6 +41,14 @@ class {{ model_name|trim|capitalize }}(SwiftSQLModel, table=True):
 {% if field.sa_column_kwargs != None %}
                                                     sa_column_kwargs={{ field.sa_column_kwargs }},
 {% endif %}
-                                                    amis_form_item='{{ field.amis_form_item }}',
-                                                    amis_table_column='{{ field.amis_table_column }}')
+{% if field.amis_form_item|trim != '' %}
+                                                    amis_form_item={{ field.amis_form_item }},
+{% else %}
+                                                    amis_form_item = "",
+{% endif %}
+{% if field.amis_table_column|trim != '' %}
+                                                    amis_table_column={{ field.amis_table_column }})
+{% else %}
+                                                    amis_table_column = "")
+{% endif %}
 {% endfor %}

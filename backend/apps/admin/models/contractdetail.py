@@ -32,61 +32,61 @@ class Contractdetail(SwiftSQLModel, table=True):
                                                     primary_key=True,
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     create_time: datetime = models.Field(default_factory= datetime.now,
                                                     title='Create Time',
                                                     nullable=False,
                                                     index=True,
-                                                    amis_form_item='amis.InputDatetime(disabled=True)',
-                                                    amis_table_column='')
+                                                    amis_form_item=amis.InputDatetime(disabled=True),
+                                                    amis_table_column = "")
     update_time: Optional[datetime] = models.Field(default_factory= datetime.now,
                                                     title='Update Time',
                                                     nullable=False,
                                                     index=True,
                                                     sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
-                                                    amis_form_item='amis.InputDatetime(disabled=True)',
-                                                    amis_table_column='')
+                                                    amis_form_item=amis.InputDatetime(disabled=True),
+                                                    amis_table_column = "")
     contract_id: Optional[int] = models.Field(default=None,
                                                     title='合同ID',
                                                     foreign_key='contract.contract_id',
                                                     nullable=False,
                                                     index=True,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     item_number: str = models.Field(default=None,
                                                     title='品号',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     item_name: str = models.Field(default=None,
                                                     title='名称',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     item_spec: str = models.Field(default=None,
                                                     title='规格',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     item_quantity: int = models.Field(default=None,
                                                     title='数量',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     unit_price: Decimal = models.Field(default=None,
                                                     title='单价',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
     item_mount: Decimal = models.Field(default=None,
                                                     title='金额',
                                                     nullable=False,
                                                     index=False,
-                                                    amis_form_item='',
-                                                    amis_table_column='')
+                                                    amis_form_item = "",
+                                                    amis_table_column = "")
