@@ -22,20 +22,6 @@
     "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
     "allow_origins": "*"
   },
-  "AppVariables": [
-    {
-      "name": "contact_type",
-      "cname": "合同类型",
-      "type": "List",
-      "value": "成品内销合同,面料合同,辅料合同"
-    },
-    {
-      "name": "supplier_name",
-      "cname": "乙方",
-      "type": "Str",
-      "value": "诸城恒畅服装厂"
-    }
-  ],
   "Models": [
     {
       "group_name": "contractadmingroup",
@@ -88,6 +74,20 @@
           ]
         }
       ]
+    }
+  ],
+  "AppVariables": [
+    {
+      "name": "contact_type",
+      "cname": "合同类型",
+      "type": "List",
+      "value": "成品内销合同,面料合同,辅料合同"
+    },
+    {
+      "name": "supplier_name",
+      "cname": "乙方",
+      "type": "Str",
+      "value": "诸城恒畅服装厂"
     }
   ]
 }
