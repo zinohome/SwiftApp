@@ -12,6 +12,9 @@
 import os
 import traceback
 import simplejson as json
+from jinja2 import Environment, FileSystemLoader
+
+from utils.log import log as log
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEF_DIR = os.path.join(BASE_DIR, 'construct')
@@ -41,7 +44,7 @@ class App():
         self.Cons = None
         self.Consdict = None
         self.readconfig()
-        self.lodmodels()
+        self.lod_models()
 
     def readconfig(self):
         try:
@@ -62,7 +65,7 @@ class App():
             print('Exception at Appdef.readconfig() %s ' % exp)
             traceback.print_exc()
 
-    def lodmodels(self):
+    def lod_models(self):
         try:
             for model in self.Cons.Models[0].models:
                 filepath = os.path.join(DEF_DIR,model.model_file)
@@ -81,12 +84,40 @@ class App():
             print('Exception at Appdef.lodmodels() %s ' % exp)
             traceback.print_exc()
 
+    def gen_models(self):
+        # 定义文件目录 backend/construct
+        basepath = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
+        # 应用目录 backend
+        apppath = os.path.abspath(os.path.join(basepath, os.pardir))
+        # 运行目录 backend/apps/admin
+        runtimepath = os.path.abspath(os.path.join(apppath, 'apps/admin'))
+        # 模版目录 backend/construct/tmpl
+        tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
+        # 输出目录 backend/construct/output
+        outputpath = os.path.abspath(os.path.join(basepath, 'output'))
+        try:
+            for model in self.Modeldicts:
+                log.debug("Generate model for table: %s" % model['model_name'])
+                env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
+                template = env.get_template('model_tmpl.py')
+                gencode = template.render(model)
+                modelfilepath = os.path.abspath(os.path.join(outputpath, 'models/'+model['tablename'] + ".py"))
+                with open(modelfilepath, 'w', encoding='utf-8') as gencodefile:
+                    gencodefile.write(gencode)
+                    gencodefile.close()
+                #log.debug(gencode)
+        except Exception as exp:
+            print('Exception at Appdef.gen_models() %s ' % exp)
+            traceback.print_exc()
+
+
 
 if __name__ == '__main__':
     app = App()
     print(app.Consdict)
     print(app.Consdict['Models'])
     print(app.Modeldicts)
+    app.gen_models()
     '''
     print(app.AppName)
     print(app.Cons.Settings)
