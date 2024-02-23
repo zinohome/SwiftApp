@@ -107,7 +107,7 @@ class App():
                     gencodefile.write(gencode)
                     gencodefile.close()
                 #log.debug(gencode)
-            log.debug("Generate models Completed...")
+            log.debug("Generate models Completed ...")
         except Exception as exp:
             print('Exception at Appdef.gen_models() %s ' % exp)
             traceback.print_exc()
@@ -123,14 +123,36 @@ class App():
         tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
         # 输出目录 backend/construct/output
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
-        log.debug("Generate groups Starting ...")
         try:
-            log.debug("Generate groups Completed...")
+            log.debug("Generate groups Starting ...")
+            for group in self.Consdict['Models']:
+                log.debug("Generate group for group: %s" % group['group_name'])
+                env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
+                template = env.get_template('group_tmpl.py')
+                gencode = template.render(group)
+                groupfilepath = os.path.abspath(os.path.join(outputpath, 'groups/' + group['group_name'].strip().lower() + ".py"))
+                with open(groupfilepath, 'w', encoding='utf-8') as gencodefile:
+                    gencodefile.write(gencode)
+                    gencodefile.close()
+                # log.debug(gencode)
+            log.debug("Generate groups Completed ...")
+
         except Exception as exp:
             print('Exception at Appdef.gen_groups() %s ' % exp)
             traceback.print_exc()
 
-
+    def gen_pages(self):
+        # 定义文件目录 backend/construct
+        basepath = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
+        # 应用目录 backend
+        apppath = os.path.abspath(os.path.join(basepath, os.pardir))
+        # 运行目录 backend/apps/admin
+        runtimepath = os.path.abspath(os.path.join(apppath, 'apps/admin'))
+        # 模版目录 backend/construct/tmpl
+        tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
+        # 输出目录 backend/construct/output
+        outputpath = os.path.abspath(os.path.join(basepath, 'output'))
+        log.debug("Generate pages Starting ...")
 
 if __name__ == '__main__':
     app = App()
@@ -139,6 +161,7 @@ if __name__ == '__main__':
     print(app.Modeldicts)
     app.gen_models()
     app.gen_groups()
+    app.gen_pages()
     '''
     print(app.AppName)
     print(app.Cons.Settings)

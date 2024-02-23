@@ -24,7 +24,7 @@
   },
   "Models": [
     {
-      "group_name": "contractadmingroup",
+      "group_name": "Contractadmingroup",
       "group_schema": "Contract",
       "label": "合同管理",
       "title": "合同管理",

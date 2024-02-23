@@ -14,22 +14,30 @@ from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
 from construct.app import App
 from utils.log import log as log
-from apps.admin.pages.contractadmin import ContractAdmin
-from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
+{% for model in models %}
+from apps.admin.pages.{{ model.name|trim }}admin import {{ model.name|trim|capitalize }}Admin
+{% for submodel in model.submodels %}
+from apps.admin.pages.{{ submodel.name|trim }}admin import {{ submodel.name|trim|capitalize }}Admin
+{% endfor %}
+{% endfor %}
 
 appdef = App()
 
 
-class Contractadmingroup(admin.AdminApp):
-    group_schema = 'Contract'
-    page_schema = amis.PageSchema(label='合同管理', title='合同管理', icon='fa fa-bolt', sort=98)
-    router_prefix = '/contract'
+class {{ group_name }}(admin.AdminApp):
+    group_schema = '{{ group_schema }}'
+    page_schema = amis.PageSchema(label='{{ label }}', title='{{ title }}', icon='{{ icon }}', sort={{ sort }})
+    router_prefix = '{{ router_prefix }}'
 
 
     def __init__(self, app: "AdminApp"):
         super().__init__(app)
-        self.register_admin(ContractAdmin)
-        self.register_admin(ContractdetailAdmin)
+{% for model in models %}
+        self.register_admin({{ model.name|trim|capitalize }}Admin)
+{% for submodel in model.submodels %}
+        self.register_admin({{ submodel.name|trim|capitalize }}Admin)
+{% endfor %}
+{% endfor %}
         #contractdetailAdmin_crud = ContractdetailAdmin(self.app).register_crud()
         #self.router.include_router(contractdetailAdmin_crud.router)
 
