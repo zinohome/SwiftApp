@@ -34,19 +34,6 @@ class Contract(SwiftSQLModel, table=True):
                                                     index=False,
                                                     amis_form_item = "",
                                                     amis_table_column = "")
-    create_time: datetime = models.Field(default_factory= datetime.now,
-                                                    title='Create Time',
-                                                    nullable=False,
-                                                    index=True,
-                                                    amis_form_item=amis.InputDatetime(disabled=True),
-                                                    amis_table_column = "")
-    update_time: Optional[datetime] = models.Field(default_factory= datetime.now,
-                                                    title='Update Time',
-                                                    nullable=False,
-                                                    index=True,
-                                                    sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
-                                                    amis_form_item=amis.InputDatetime(disabled=True),
-                                                    amis_table_column = "")
     contact_number: str = models.Field(default=None,
                                                     title='合同编号',
                                                     nullable=False,
@@ -130,4 +117,17 @@ class Contract(SwiftSQLModel, table=True):
                                                     nullable=False,
                                                     index=False,
                                                     amis_form_item = "",
+                                                    amis_table_column = "")
+    create_time: datetime = models.Field(default_factory= datetime.now,
+                                                    title='Create Time',
+                                                    nullable=False,
+                                                    index=True,
+                                                    amis_form_item=amis.InputDatetime(disabled=True),
+                                                    amis_table_column = "")
+    update_time: Optional[datetime] = models.Field(default_factory= datetime.now,
+                                                    title='Update Time',
+                                                    nullable=False,
+                                                    index=True,
+                                                    sa_column_kwargs={"onupdate": func.now(), "server_default": func.now()},
+                                                    amis_form_item=amis.InputDatetime(disabled=True),
                                                     amis_table_column = "")
