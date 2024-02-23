@@ -110,6 +110,32 @@ class App():
             print('Exception at Appdef.gen_models() %s ' % exp)
             traceback.print_exc()
 
+    def gen_groups(self):
+        # 定义文件目录 backend/construct
+        basepath = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
+        # 应用目录 backend
+        apppath = os.path.abspath(os.path.join(basepath, os.pardir))
+        # 运行目录 backend/apps/admin
+        runtimepath = os.path.abspath(os.path.join(apppath, 'apps/admin'))
+        # 模版目录 backend/construct/tmpl
+        tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
+        # 输出目录 backend/construct/output
+        outputpath = os.path.abspath(os.path.join(basepath, 'output'))
+        try:
+            for model in self.Modeldicts:
+                log.debug("Generate Group for group: %s" % model['model_name'])
+                env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
+                template = env.get_template('model_tmpl.py')
+                gencode = template.render(model)
+                modelfilepath = os.path.abspath(os.path.join(outputpath, 'models/'+model['tablename'] + ".py"))
+                with open(modelfilepath, 'w', encoding='utf-8') as gencodefile:
+                    gencodefile.write(gencode)
+                    gencodefile.close()
+                #log.debug(gencode)
+        except Exception as exp:
+            print('Exception at Appdef.gen_groups() %s ' % exp)
+            traceback.print_exc()
+
 
 
 if __name__ == '__main__':
