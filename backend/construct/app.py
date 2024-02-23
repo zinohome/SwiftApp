@@ -67,3 +67,7 @@ if __name__ == '__main__':
     print(app.Cons.AppVariables[0].cname)
     print(app.Cons.Settings.language)
     print(app.Consdict)
+    print(app.Cons.Models[0].group_schema)
+    print(app.Cons.Models[0].models[0].name)
+    print(app.Cons.Models[0].models[0].submodels[0].name)
+    print(app.Cons.Models[0].models[0].submodels[0].model_file)

@@ -30,7 +30,7 @@ from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 
 class ContractAdmin(SwiftAdmin):
     group_schema = None
-    page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all')
+    page_schema = PageSchema(label='合同管理', page_title='合同管理', icon='fa fa-border-all', sort=98)
     model = Contract
     pk_name = 'contract_id'
     list_per_page = 10

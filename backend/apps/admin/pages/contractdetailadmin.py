@@ -30,7 +30,7 @@ from utils.log import log as log
 
 class ContractdetailAdmin(SwiftAdmin):
     group_schema = None
-    page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all')
+    page_schema = PageSchema(label='合同明细', page_title='合同明细', icon='fa fa-border-all', sort=97)
     model = Contractdetail
     pk_name = 'contractdetail_id'
     list_per_page = 50
