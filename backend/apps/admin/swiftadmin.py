@@ -50,7 +50,7 @@ from fastapi_amis_admin.amis.components import (
 from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
 from fastapi_amis_admin.crud import BaseApiOut, ItemListSchema
 from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
-from fastapi_amis_admin.crud.parser import parse_obj_to_schema
+from fastapi_amis_admin.crud.parser import parse_obj_to_schema, TableModelT
 from fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
 from sqlalchemy import func, Select
 from typing_extensions import Annotated, Literal
@@ -474,7 +474,6 @@ class SwiftAdmin(AuthSelectModelAdmin):
 
     async def on_create_pre(self, request: Request, obj: SchemaCreateT, **kwargs) -> Dict[str, Any]:
         data = await super().on_create_pre(request, obj)
-        log.debug(data)
         return data
 
     async def on_update_pre(
@@ -485,5 +484,7 @@ class SwiftAdmin(AuthSelectModelAdmin):
             **kwargs,
     ) -> Dict[str, Any]:
         data = await super().on_update_pre(request, obj, item_id)
-        log.debug(data)
         return data
+
+    async def update_items(self, request: Request, item_id: List[str], values: Dict[str, Any]) -> List[TableModelT]:
+        return await super().update_items(request, item_id, values)

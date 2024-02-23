@@ -7,14 +7,19 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
+import traceback
+
 from fastapi_amis_admin.admin import PageAdmin, ModelAdmin
-from sqlalchemy import Select
+from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
+from fastapi_amis_admin.crud.parser import TableModelT
+from sqlalchemy import Select, update, text
+from sqlmodel import Session, select
 
 from apps.admin.models.contract import Contract
 from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, Dict, Union, Any
 from fastapi_amis_admin import admin
 from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
     TableCRUD, Page, TabsModeEnum
@@ -45,5 +50,33 @@ class ContractdetailAdmin(SwiftAdmin):
         # 设置form弹出类型  Drawer | Dialog
         self.action_type = 'Drawer'
 
+    async def on_create_pre(self, request: Request, obj: SchemaCreateT, **kwargs) -> Dict[str, Any]:
+        data = await super().on_create_pre(request, obj)
+        data['item_mount'] = data['item_quantity']*data['unit_price']
+        return data
 
+    async def on_update_pre(
+            self,
+            request: Request,
+            obj: SchemaUpdateT,
+            item_id: Union[List[str], List[int]],
+            **kwargs,
+    ) -> Dict[str, Any]:
+        data = await super().on_update_pre(request, obj, item_id)
+        data['item_mount'] = data['item_quantity']*data['unit_price']
+        return data
+
+    async def update_items(self, request: Request, item_id: List[str], values: Dict[str, Any]) -> List[TableModelT]:
+        try:
+            result = await super().update_items(request, item_id, values)
+            if len(result) > 0:
+                #UPDATE `contract` SET contract_amount = ( SELECT SUM(item_mount) FROM contractdetail WHERE contractdetail.contract_id = 1 ) WHERE contract.contract_id = 1;
+                #statement = select(Contract).where(Contract.contract_id == values['contract_id'])
+                statement = text("UPDATE contract SET contract_amount = ( SELECT SUM(item_mount) FROM contractdetail WHERE contractdetail.contract_id = :contract_id ) WHERE contract.contract_id = :contract_id")
+                uresult = await self.app.db.async_execute(statement,{'contract_id':values['contract_id']})
+                #log.debug(uresult)
+            return result
+        except Exception as exp:
+            print('Exception at Appdef.readconfig() %s ' % exp)
+            traceback.print_exc()
 
