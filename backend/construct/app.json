@@ -22,7 +22,7 @@
     "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
     "allow_origins": "*"
   },
-  "Models": [
+  "Groups": [
     {
       "group_name": "Contractadmingroup",
       "group_schema": "Contract",

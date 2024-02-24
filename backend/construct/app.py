@@ -67,19 +67,20 @@ class App():
 
     def lod_models(self):
         try:
-            for model in self.Cons.Models[0].models:
-                filepath = os.path.join(DEF_DIR,model.model_file)
-                with open(filepath, 'r', encoding="utf-8") as model_file:
-                    content = model_file.read()
-                    self.Models.append(json.loads(content, object_hook=obj))
-                    self.Modeldicts.append(json.loads(content))
-                if len(model.submodels) > 0:
-                    for submodel in model.submodels:
-                        filepath = os.path.join(DEF_DIR, submodel.model_file)
-                        with open(filepath, 'r', encoding="utf-8") as submodel_file:
-                            content = submodel_file.read()
-                            self.Models.append(json.loads(content, object_hook=obj))
-                            self.Modeldicts.append(json.loads(content))
+            for group in self.Cons.Groups:
+                for model in group.models:
+                    filepath = os.path.join(DEF_DIR,model.model_file)
+                    with open(filepath, 'r', encoding="utf-8") as model_file:
+                        content = model_file.read()
+                        self.Models.append(json.loads(content, object_hook=obj))
+                        self.Modeldicts.append(json.loads(content))
+                    if len(model.submodels) > 0:
+                        for submodel in model.submodels:
+                            filepath = os.path.join(DEF_DIR, submodel.model_file)
+                            with open(filepath, 'r', encoding="utf-8") as submodel_file:
+                                content = submodel_file.read()
+                                self.Models.append(json.loads(content, object_hook=obj))
+                                self.Modeldicts.append(json.loads(content))
         except Exception as exp:
             print('Exception at Appdef.lodmodels() %s ' % exp)
             traceback.print_exc()
@@ -125,7 +126,7 @@ class App():
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
         try:
             log.debug("Generate groups Starting ...")
-            for group in self.Consdict['Models']:
+            for group in self.Consdict['Groups']:
                 log.debug("Generate group for group: %s" % group['group_name'])
                 env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
                 template = env.get_template('group_tmpl.py')
@@ -153,7 +154,7 @@ class App():
         # 输出目录 backend/construct/output
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
         log.debug("Generate pages Starting ...")
-        for group in self.Consdict['Models']:
+        for group in self.Consdict['Groups']:
             for model in group['models']:
                 log.debug("Generate page for page: %s" % model['name'])
                 env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
@@ -183,7 +184,7 @@ class App():
 if __name__ == '__main__':
     app = App()
     print(app.Consdict)
-    print(app.Consdict['Models'])
+    print(app.Consdict['Groups'])
     print(app.Modeldicts)
     app.gen_models()
     app.gen_groups()
@@ -194,8 +195,8 @@ if __name__ == '__main__':
     print(app.Cons.AppVariables[0].cname)
     print(app.Cons.Settings.language)
     print(app.Consdict)
-    print(app.Cons.Models[0].group_schema)
-    print(app.Cons.Models[0].models[0].name)
-    print(app.Cons.Models[0].models[0].submodels[0].name)
-    print(app.Cons.Models[0].models[0].submodels[0].model_file)
+    print(app.Cons.Groups[0].group_schema)
+    print(app.Cons.Groups[0].models[0].name)
+    print(app.Cons.Groups[0].models[0].submodels[0].name)
+    print(app.Cons.Groups[0].models[0].submodels[0].model_file)
     '''
