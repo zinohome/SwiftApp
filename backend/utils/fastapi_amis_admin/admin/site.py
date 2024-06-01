@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 
-import fastapi_amis_admin
+import utils.fastapi_amis_admin as fastapi_amis_admin
 from utils.fastapi_amis_admin import amis
 from utils.fastapi_amis_admin.admin import AdminApp, admin
 from utils.fastapi_amis_admin.admin.settings import Settings

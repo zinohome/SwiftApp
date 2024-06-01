@@ -31,7 +31,7 @@ from starlette.responses import HTMLResponse, Response
 from starlette.templating import Jinja2Templates
 from typing_extensions import Annotated, Literal
 
-import fastapi_amis_admin
+import utils.fastapi_amis_admin as fastapi_amis_admin
 from utils.fastapi_amis_admin.admin.handlers import register_exception_handlers
 from utils.fastapi_amis_admin.admin.parser import AmisParser
 from utils.fastapi_amis_admin.admin.settings import Settings
