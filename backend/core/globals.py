@@ -11,17 +11,17 @@ import os
 from typing import Optional
 
 from fastapi import FastAPI
-from fastapi_amis_admin.admin import HomeAdmin, DocsAdmin, ReDocsAdmin
-from fastapi_amis_admin.amis import App, ActionType, Flex, Drawer, SizeEnum, Service, AmisAPI, InputImage, ColumnImage
-from fastapi_amis_admin.crud.utils import SqlalchemyDatabase
-from fastapi_user_auth.admin import AuthAdminSite
-from fastapi_user_auth.auth import Auth
-from fastapi_user_auth.auth.schemas import SystemUserEnum
+from utils.fastapi_amis_admin.admin import HomeAdmin, DocsAdmin, ReDocsAdmin
+from utils.fastapi_amis_admin.amis import App, ActionType, Flex, Drawer, SizeEnum, Service, AmisAPI, InputImage, ColumnImage
+from utils.fastapi_amis_admin.crud.utils import SqlalchemyDatabase
+from utils.fastapi_user_auth.admin import AuthAdminSite
+from utils.fastapi_user_auth.auth import Auth
+from utils.fastapi_user_auth.auth.schemas import SystemUserEnum
 from sqlalchemy_database import AsyncDatabase, Database
-from fastapi_user_auth.auth.backends.jwt import JwtTokenStore
+from utils.fastapi_user_auth.auth.backends.jwt import JwtTokenStore
 from starlette.requests import Request
-from fastapi_amis_admin.models.fields import Field
-from fastapi_user_auth.auth.models import BaseUser
+from utils.fastapi_amis_admin.models.fields import Field
+from utils.fastapi_user_auth.auth.models import BaseUser
 
 from core.settings import settings, Settings
 from utils.log import log as log

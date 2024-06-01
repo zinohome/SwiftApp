@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from fastapi_amis_admin.admin.settings import Settings as AmisSettings
+from utils.fastapi_amis_admin.admin.settings import Settings as AmisSettings
 
 from construct.app import App
 
