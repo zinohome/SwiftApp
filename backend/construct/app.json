@@ -10,7 +10,7 @@
     "debug": true,
     "version": "v1.1",
     "site_title": "SwiftApp",
-    "site_icon": "/static/favicon.ico",
+    "site_icon": "/static/favicon.png",
     "site_url": "",
     "site_path": "/admin",
     "database_url_async": "mysql+aiomysql://root:passw0rd@192.168.32.11:3306/swiftapp?charset=utf8mb4",
