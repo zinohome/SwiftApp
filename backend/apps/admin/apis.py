@@ -9,7 +9,7 @@
 #  @Software: SwiftApp
 
 from fastapi import APIRouter
-from utils.fastapi_amis_admin.globals.deps import AsyncSess, SyncSess
+from fastapi_amis_admin.globals.deps import AsyncSess, SyncSess
 
 router = APIRouter()
 
@@ -32,7 +32,7 @@ async def test_async_db(sess: AsyncSess):
     # do something
     pass
 
-# from utils.fastapi_user_authuser_auth.globals.deps import CurrentUser
+# from fastapi_user_authuser_auth.globals.deps import CurrentUser
 #
 # @router.get("/get_user", summary="获取当前登录用户")
 # async def get_user(user: CurrentUser):

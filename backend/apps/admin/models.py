@@ -10,8 +10,8 @@
 
 from typing import Optional
 from sqlmodel import SQLModel
-from utils.fastapi_amis_admin import amis
-from utils.fastapi_amis_admin.models import Field
+from fastapi_amis_admin import amis
+from fastapi_amis_admin.models import Field
 
 
 # Create your models here.

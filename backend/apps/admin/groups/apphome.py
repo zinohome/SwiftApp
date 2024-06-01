@@ -7,11 +7,11 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
-from utils.fastapi_amis_admin.admin import AdminApp
+from fastapi_amis_admin.admin import AdminApp
 from starlette.requests import Request
 
 from core.globals import site
-from utils.fastapi_amis_admin import amis, admin
+from fastapi_amis_admin import amis, admin
 from construct.app import App
 from utils.log import log as log
 

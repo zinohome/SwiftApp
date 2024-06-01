@@ -24,12 +24,12 @@ from typing import (
     Type,
     Union,
 )
-from utils.fastapi_amis_admin import admin, amis
+from fastapi_amis_admin import admin, amis
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
-from utils.fastapi_amis_admin.admin import AdminAction
-from utils.fastapi_amis_admin.utils.pydantic import ModelField
-from utils.fastapi_amis_admin.amis import SchemaNode
-from utils.fastapi_amis_admin.amis.components import (
+from fastapi_amis_admin.admin import AdminAction
+from fastapi_amis_admin.utils.pydantic import ModelField
+from fastapi_amis_admin.amis import SchemaNode
+from fastapi_amis_admin.amis.components import (
     Action,
     ActionType,
     App,
@@ -49,14 +49,14 @@ from utils.fastapi_amis_admin.amis.components import (
     TableCRUD,
     Tpl, Drawer,
 )
-from utils.fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
-from utils.fastapi_amis_admin.crud import BaseApiOut, ItemListSchema, CrudEnum
-from utils.fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
-from utils.fastapi_amis_admin.crud.parser import parse_obj_to_schema, TableModelT
-from utils.fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
+from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
+from fastapi_amis_admin.crud import BaseApiOut, ItemListSchema, CrudEnum
+from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
+from fastapi_amis_admin.crud.parser import parse_obj_to_schema, TableModelT
+from fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
 from sqlalchemy import func
 from typing_extensions import Annotated, Literal
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
 class SwiftAdmin(AuthSelectModelAdmin):
