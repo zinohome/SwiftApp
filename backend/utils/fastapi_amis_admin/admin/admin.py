@@ -31,7 +31,7 @@ from starlette.responses import HTMLResponse, Response
 from starlette.templating import Jinja2Templates
 from typing_extensions import Annotated, Literal
 
-import utils.fastapi_amis_admin as fastapi_amis_admin
+#import utils.fastapi_amis_admin as fastapi_amis_admin
 from utils.fastapi_amis_admin.admin.handlers import register_exception_handlers
 from utils.fastapi_amis_admin.admin.parser import AmisParser
 from utils.fastapi_amis_admin.admin.settings import Settings
@@ -1489,7 +1489,7 @@ class BaseAdminSite(AdminApp):
     ):
         self.application = None
         try:
-            from fastapi_user_auth.auth import Auth
+            from utils.fastapi_user_authuser_auth.auth import Auth
 
             self.auth: Auth = None  # type: ignore
         except ImportError:

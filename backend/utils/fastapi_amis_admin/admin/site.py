@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 
-import utils.fastapi_amis_admin as fastapi_amis_admin
+#import utils.fastapi_amis_admin as fastapi_amis_admin
 from utils.fastapi_amis_admin import amis
 from utils.fastapi_amis_admin.admin import AdminApp, admin
 from utils.fastapi_amis_admin.admin.settings import Settings
@@ -73,7 +73,7 @@ class HomeAdmin(admin.PageAdmin):
                 items=[
                     Property.Item(label="system", content=platform.system()),
                     Property.Item(label="python", content=platform.python_version()),
-                    Property.Item(label="version", content=fastapi_amis_admin.__version__),
+                    Property.Item(label="version", content="0.7.2"),
                     Property.Item(label="license", content="Apache2.0"),
                     Property.Item(label="amis-cdn", content=self.site.settings.amis_cdn),
                     Property.Item(label="amis-pkg", content=self.site.settings.amis_pkg),

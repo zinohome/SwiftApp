@@ -32,7 +32,7 @@ async def test_async_db(sess: AsyncSess):
     # do something
     pass
 
-# from fastapi_user_auth.globals.deps import CurrentUser
+# from utils.fastapi_user_authuser_auth.globals.deps import CurrentUser
 #
 # @router.get("/get_user", summary="获取当前登录用户")
 # async def get_user(user: CurrentUser):
