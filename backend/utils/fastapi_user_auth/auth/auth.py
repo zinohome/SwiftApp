@@ -20,12 +20,12 @@ from casbin import AsyncEnforcer
 from fastapi import Depends, FastAPI, Form, HTTPException, params
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.utils import get_authorization_scheme_param
-from fastapi_amis_admin.admin import BaseAdminSite
-from fastapi_amis_admin.crud.base import RouterMixin
-from fastapi_amis_admin.crud.schema import BaseApiOut
-from fastapi_amis_admin.utils.functools import cached_property
-from fastapi_amis_admin.utils.pydantic import create_model_by_model
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.admin import BaseAdminSite
+from utils.fastapi_amis_admin.crud.base import RouterMixin
+from utils.fastapi_amis_admin.crud.schema import BaseApiOut
+from utils.fastapi_amis_admin.utils.functools import cached_property
+from utils.fastapi_amis_admin.utils.pydantic import create_model_by_model
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from passlib.context import CryptContext
 from pydantic import BaseModel, SecretStr
 from sqlalchemy.orm import Session

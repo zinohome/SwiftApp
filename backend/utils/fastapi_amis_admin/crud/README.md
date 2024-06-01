@@ -17,7 +17,7 @@ from typing import Optional
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlmodel import SQLModel, Field
-from fastapi_amis_admin.crud import SqlalchemyCrud
+from utils.fastapi_amis_admin.crud import SqlalchemyCrud
 
 
 # 1. Create SQLModel model

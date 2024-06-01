@@ -13,13 +13,13 @@ from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 
 import fastapi_amis_admin
-from fastapi_amis_admin import amis
-from fastapi_amis_admin.admin import AdminApp, admin
-from fastapi_amis_admin.admin.settings import Settings
-from fastapi_amis_admin.amis.components import Page, PageSchema, Property
-from fastapi_amis_admin.crud.schema import BaseApiOut
-from fastapi_amis_admin.crud.utils import SqlalchemyDatabase
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin import amis
+from utils.fastapi_amis_admin.admin import AdminApp, admin
+from utils.fastapi_amis_admin.admin.settings import Settings
+from utils.fastapi_amis_admin.amis.components import Page, PageSchema, Property
+from utils.fastapi_amis_admin.crud.schema import BaseApiOut
+from utils.fastapi_amis_admin.crud.utils import SqlalchemyDatabase
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
 
 class APIDocsApp(admin.AdminApp):

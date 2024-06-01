@@ -4,8 +4,8 @@ from sqlalchemy import Column
 from sqlmodel._compat import Undefined, UndefinedType, post_init_field_info
 from sqlmodel.main import FieldInfo, NoArgAnyCallable
 
-from fastapi_amis_admin.amis import FormItem, TableColumn
-from fastapi_amis_admin.utils.pydantic import PYDANTIC_V2
+from utils.fastapi_amis_admin.amis import FormItem, TableColumn
+from utils.fastapi_amis_admin.utils.pydantic import PYDANTIC_V2
 
 if PYDANTIC_V2:
     from pydantic.fields import AliasChoices, AliasPath

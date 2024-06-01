@@ -9,10 +9,10 @@
 #  @Software: SwiftApp
 from datetime import date, datetime
 from decimal import Decimal
-from fastapi_amis_admin import models, amis
+from utils.fastapi_amis_admin import models, amis
 from typing import Optional, List, TYPE_CHECKING
 
-from fastapi_amis_admin.models import Field
+from utils.fastapi_amis_admin.models import Field
 from sqlalchemy import func
 from sqlmodel import Relationship
 from sqlmodelx import SQLModel

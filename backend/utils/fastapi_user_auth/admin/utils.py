@@ -3,12 +3,12 @@ from functools import lru_cache
 from typing import Any, Callable, Dict, List, Tuple
 
 from casbin import AsyncEnforcer
-from fastapi_amis_admin.admin import FormAdmin, ModelAdmin, PageSchemaAdmin
-from fastapi_amis_admin.admin.admin import AdminGroup, BaseActionAdmin, BaseAdminSite
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.admin import FormAdmin, ModelAdmin, PageSchemaAdmin
+from utils.fastapi_amis_admin.admin.admin import AdminGroup, BaseActionAdmin, BaseAdminSite
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
-from fastapi_user_auth.auth.schemas import SystemUserEnum
-from fastapi_user_auth.utils.casbin import permission_encode, permission_enforce
+from utils.fastapi_user_auth.auth.schemas import SystemUserEnum
+from utils.fastapi_user_auth.utils.casbin import permission_encode, permission_enforce
 
 
 @lru_cache()

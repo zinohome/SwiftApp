@@ -1,10 +1,10 @@
 from typing import Annotated, Optional
 
 from fastapi import Depends
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
-from fastapi_user_auth import globals as g
-from fastapi_user_auth.auth.exceptions import AuthError, ErrorCode
+from utils.fastapi_user_auth import globals as g
+from utils.fastapi_user_auth.auth.exceptions import AuthError, ErrorCode
 
 # 获取当前登录的用户
 get_user_or_none = g.auth.get_current_user
