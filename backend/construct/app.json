@@ -17,7 +17,7 @@
     "database_url": "mysql+pymysql://root:passw0rd@192.168.32.11:3306/swiftapp?charset=utf8mb4",
     "language": "zh_CN",
     "amis_cdn": "/static/",
-    "amis_pkg": "amis@6.0.0",
+    "amis_pkg": "amis@6.5.0",
     "amis_theme": "cxd",
     "secret_key": "tr0kjyg3dls6wk2tyv816wljchqp7039hjxesccebpxd701ow4ctlfe2u0anmm60",
     "allow_origins": "*"
