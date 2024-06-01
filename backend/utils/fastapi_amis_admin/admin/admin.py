@@ -31,11 +31,10 @@ from starlette.responses import HTMLResponse, Response
 from starlette.templating import Jinja2Templates
 from typing_extensions import Annotated, Literal
 
-import fastapi_amis_admin
-from fastapi_amis_admin.admin.handlers import register_exception_handlers
-from fastapi_amis_admin.admin.parser import AmisParser
-from fastapi_amis_admin.admin.settings import Settings
-from fastapi_amis_admin.amis.components import (
+from utils.fastapi_amis_admin.admin.handlers import register_exception_handlers
+from utils.fastapi_amis_admin.admin.parser import AmisParser
+from utils.fastapi_amis_admin.admin.settings import Settings
+from utils.fastapi_amis_admin.amis.components import (
     Action,
     ActionType,
     App,
@@ -55,31 +54,31 @@ from fastapi_amis_admin.amis.components import (
     TableCRUD,
     Tpl,
 )
-from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
-from fastapi_amis_admin.amis.types import (
+from utils.fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum, SizeEnum
+from utils.fastapi_amis_admin.amis.types import (
     AmisAPI,
     AmisNode,
     BaseAmisApiOut,
     BaseAmisModel,
     SchemaNode,
 )
-from fastapi_amis_admin.crud import RouterMixin, SqlalchemyCrud
-from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaFilterT, SchemaUpdateT
-from fastapi_amis_admin.crud.parser import (
+from utils.fastapi_amis_admin.crud import RouterMixin, SqlalchemyCrud
+from utils.fastapi_amis_admin.crud.base import SchemaCreateT, SchemaFilterT, SchemaUpdateT
+from utils.fastapi_amis_admin.crud.parser import (
     SqlaField,
     TableModelParser,
     get_python_type_parse,
 )
-from fastapi_amis_admin.crud.schema import BaseApiOut, CrudEnum, Paginator
-from fastapi_amis_admin.crud.utils import (
+from utils.fastapi_amis_admin.crud.schema import BaseApiOut, CrudEnum, Paginator
+from utils.fastapi_amis_admin.crud.utils import (
     IdStrQuery,
     SqlalchemyDatabase,
     get_engine_db,
     parser_str_set_list,
 )
-from fastapi_amis_admin.utils.functools import cached_property
-from fastapi_amis_admin.utils.pydantic import ModelField, annotation_outer_type, create_model_by_model, deep_update, model_fields
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.functools import cached_property
+from utils.fastapi_amis_admin.utils.pydantic import ModelField, annotation_outer_type, create_model_by_model, deep_update, model_fields
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
 BaseAdminT = TypeVar("BaseAdminT", bound="BaseAdmin")
 PageSchemaAdminT = TypeVar("PageSchemaAdminT", bound="PageSchemaAdmin")
@@ -1444,21 +1443,6 @@ class AdminApp(PageAdmin, AdminGroup):
         app = App()
         app.brandName = self.site.settings.site_title
         app.logo = self.site.settings.site_icon
-        '''
-        app.header = Tpl(
-            className="w-full",
-            tpl='<div class="flex justify-between"><div></div>'
-            f'<div><a href="{fastapi_amis_admin.__url__}" target="_blank" '
-            'title="Copyright"><i class="fa fa-github fa-2x"></i></a></div></div>',
-        )
-        app.footer = (
-            '<div class="p-2 text-center bg-light">Copyright © 2021 - 2022  '
-            f'<a href="{fastapi_amis_admin.__url__}" target="_blank" '
-            'class="link-secondary">fastapi-amis-admin</a>. All rights reserved. '
-            f'<a target="_blank" href="{fastapi_amis_admin.__url__}" '
-            f'class="link-secondary" rel="noopener">v{fastapi_amis_admin.__version__}</a></div> '
-        )
-        '''
         app.header = Tpl(
             className="w-full",
             tpl='<div class="flex justify-between"><div></div>'

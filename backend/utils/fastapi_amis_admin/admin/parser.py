@@ -5,9 +5,9 @@ from typing import Any, Generator, Iterable, Type, TypeVar, Union
 from fastapi._compat import Undefined, field_annotation_is_scalar_sequence, field_annotation_is_sequence
 from pydantic import BaseModel, Json
 
-from fastapi_amis_admin import amis
-from fastapi_amis_admin.amis import AmisNode
-from fastapi_amis_admin.amis.components import (
+from utils.fastapi_amis_admin import amis
+from utils.fastapi_amis_admin.amis import AmisNode
+from utils.fastapi_amis_admin.amis.components import (
     Form,
     FormItem,
     InputArray,
@@ -15,9 +15,9 @@ from fastapi_amis_admin.amis.components import (
     TableColumn,
     Validation,
 )
-from fastapi_amis_admin.amis.constants import LabelEnum
-from fastapi_amis_admin.models import Choices
-from fastapi_amis_admin.utils.pydantic import (
+from utils.fastapi_amis_admin.amis.constants import LabelEnum
+from utils.fastapi_amis_admin.models import Choices
+from utils.fastapi_amis_admin.utils.pydantic import (
     PYDANTIC_V2,
     ModelField,
     annotation_outer_type,
@@ -30,7 +30,7 @@ from fastapi_amis_admin.utils.pydantic import (
     scalar_sequence_inner_type,
     smart_deepcopy,
 )
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
 _T = TypeVar("_T")
 

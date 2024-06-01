@@ -6,7 +6,7 @@ from typing import Awaitable, Callable, List, Union
 from sqlalchemy.sql import Select
 from starlette.requests import Request
 
-from fastapi_amis_admin.admin import ModelAdmin
+from utils.fastapi_amis_admin.admin import ModelAdmin
 
 
 class FieldPermEnum(int, Enum):

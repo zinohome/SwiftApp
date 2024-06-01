@@ -1,12 +1,12 @@
 from typing import Any, Dict, List
 
 from casbin import AsyncEnforcer
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from fastapi_user_auth.auth.models import CasbinRule
-from fastapi_user_auth.auth.schemas import SystemUserEnum
+from utils.fastapi_user_auth.auth.models import CasbinRule
+from utils.fastapi_user_auth.auth.schemas import SystemUserEnum
 
 
 # 执行casbin字符串规则

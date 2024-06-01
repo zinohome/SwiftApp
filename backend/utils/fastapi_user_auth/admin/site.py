@@ -1,8 +1,8 @@
 from typing import Optional, Type
 
 from fastapi import FastAPI
-from fastapi_amis_admin.admin import AdminSite, PageSchemaAdmin, Settings
-from fastapi_amis_admin.amis.components import (
+from utils.fastapi_amis_admin.admin import AdminSite, PageSchemaAdmin, Settings
+from utils.fastapi_amis_admin.amis.components import (
     ActionType,
     App,
     Dialog,
@@ -11,15 +11,15 @@ from fastapi_amis_admin.amis.components import (
     PageSchema,
     Service,
 )
-from fastapi_amis_admin.amis.constants import SizeEnum
-from fastapi_amis_admin.amis.types import AmisAPI
-from fastapi_amis_admin.crud.utils import SqlalchemyDatabase
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.amis.constants import SizeEnum
+from utils.fastapi_amis_admin.amis.types import AmisAPI
+from utils.fastapi_amis_admin.crud.utils import SqlalchemyDatabase
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from starlette.requests import Request
 
-from fastapi_user_auth.admin import UserAuthApp as DefaultUserAuthApp
-from fastapi_user_auth.auth import Auth
-from fastapi_user_auth.auth.schemas import SystemUserEnum
+from utils.fastapi_user_auth.admin import UserAuthApp as DefaultUserAuthApp
+from utils.fastapi_user_auth.auth import Auth
+from utils.fastapi_user_auth.auth.schemas import SystemUserEnum
 
 
 class AuthAdminSite(AdminSite):

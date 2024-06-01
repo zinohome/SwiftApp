@@ -6,16 +6,16 @@ from sqlalchemy.engine import Result
 from sqlalchemy.sql import Select
 from starlette.requests import Request
 
-from fastapi_amis_admin.admin.admin import AdminAction, AdminApp, FormAdmin, ModelAdmin
-from fastapi_amis_admin.admin.extensions.schemas import FieldPermEnum, SelectPerm
-from fastapi_amis_admin.admin.extensions.utils import get_schema_fields_name_label
-from fastapi_amis_admin.amis import FormItem, SchemaNode, TableColumn, TableCRUD
-from fastapi_amis_admin.crud.base import ItemListSchema, SchemaCreateT, SchemaFilterT, SchemaModelT, SchemaReadT, SchemaUpdateT
-from fastapi_amis_admin.crud.parser import TableModelT
-from fastapi_amis_admin.crud.schema import CrudEnum
-from fastapi_amis_admin.utils.functools import cached_property
-from fastapi_amis_admin.utils.pydantic import ModelField
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.admin.admin import AdminAction, AdminApp, FormAdmin, ModelAdmin
+from utils.fastapi_amis_admin.admin.extensions.schemas import FieldPermEnum, SelectPerm
+from utils.fastapi_amis_admin.admin.extensions.utils import get_schema_fields_name_label
+from utils.fastapi_amis_admin.amis import FormItem, SchemaNode, TableColumn, TableCRUD
+from utils.fastapi_amis_admin.crud.base import ItemListSchema, SchemaCreateT, SchemaFilterT, SchemaModelT, SchemaReadT, SchemaUpdateT
+from utils.fastapi_amis_admin.crud.parser import TableModelT
+from utils.fastapi_amis_admin.crud.schema import CrudEnum
+from utils.fastapi_amis_admin.utils.functools import cached_property
+from utils.fastapi_amis_admin.utils.pydantic import ModelField
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 
 
 class ReadOnlyModelAdmin(ModelAdmin):

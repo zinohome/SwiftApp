@@ -6,9 +6,9 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.schedulers.base import BaseScheduler
 from fastapi import Body, Depends
-from fastapi_amis_admin import admin
-from fastapi_amis_admin.admin import AdminApp
-from fastapi_amis_admin.amis import (
+from utils.fastapi_amis_admin import admin
+from utils.fastapi_amis_admin.admin import AdminApp
+from utils.fastapi_amis_admin.amis import (
     Action,
     ActionType,
     Dialog,
@@ -22,20 +22,20 @@ from fastapi_amis_admin.amis import (
     TableColumn,
     TableCRUD,
 )
-from fastapi_amis_admin.crud.schema import (
+from utils.fastapi_amis_admin.crud.schema import (
     BaseApiOut,
     CrudEnum,
     ItemListSchema,
     Paginator,
 )
-from fastapi_amis_admin.crud.utils import ItemIdListDepend
-from fastapi_amis_admin.models.fields import Field
-from fastapi_amis_admin.utils.pydantic import (
+from utils.fastapi_amis_admin.crud.utils import ItemIdListDepend
+from utils.fastapi_amis_admin.models.fields import Field
+from utils.fastapi_amis_admin.utils.pydantic import (
     ModelField,
     create_model_by_model,
     model_fields,
 )
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from pydantic import BaseModel, validator
 from starlette.requests import Request
 from typing_extensions import Annotated, Literal
