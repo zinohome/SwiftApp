@@ -1,12 +1,12 @@
 from typing import Optional
 
-from utils.fastapi_amis_admin.amis.components import ColumnImage, InputImage
-from utils.fastapi_amis_admin.crud.parser import LabelField
-from utils.fastapi_amis_admin.models import Field
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.amis.components import ColumnImage, InputImage
+from fastapi_amis_admin.crud.parser import LabelField
+from fastapi_amis_admin.models import Field
+from fastapi_amis_admin.utils.translation import i18n as _
 from sqlalchemy import func, select
 
-from utils.fastapi_user_auth.mixins.models import (  # noqa F401
+from fastapi_user_auth.mixins.models import (  # noqa F401
     CreateTimeMixin,
     CUDTimeMixin,
     DeleteTimeMixin,

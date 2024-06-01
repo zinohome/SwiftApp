@@ -1,22 +1,22 @@
 from typing import Type
 
-from utils.fastapi_amis_admin.admin import AdminApp, ModelAdmin
-from utils.fastapi_amis_admin.amis.components import PageSchema
-from utils.fastapi_amis_admin.crud import BaseApiOut
-from utils.fastapi_amis_admin.utils.pydantic import create_model_by_model
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.admin import AdminApp, ModelAdmin
+from fastapi_amis_admin.amis.components import PageSchema
+from fastapi_amis_admin.crud import BaseApiOut
+from fastapi_amis_admin.utils.pydantic import create_model_by_model
+from fastapi_amis_admin.utils.translation import i18n as _
 from starlette.requests import Request
 
-from utils.fastapi_user_auth.admin import CasbinRuleAdmin
-from utils.fastapi_user_auth.admin import LoginHistoryAdmin as DefaultLoginHistoryAdmin
-from utils.fastapi_user_auth.admin import RoleAdmin as DefaultRoleAdmin
-from utils.fastapi_user_auth.admin import UserAdmin as DefaultUserAdmin
-from utils.fastapi_user_auth.admin import UserInfoFormAdmin as DefaultUserInfoFormAdmin
-from utils.fastapi_user_auth.admin import UserLoginFormAdmin as DefaultUserLoginFormAdmin
-from utils.fastapi_user_auth.admin import UserRegFormAdmin as DefaultUserRegFormAdmin
-from utils.fastapi_user_auth.admin.utils import get_admin_action_options_by_subject
-from utils.fastapi_user_auth.auth import AuthRouter
-from utils.fastapi_user_auth.auth.schemas import SystemUserEnum
+from fastapi_user_auth.admin import CasbinRuleAdmin
+from fastapi_user_auth.admin import LoginHistoryAdmin as DefaultLoginHistoryAdmin
+from fastapi_user_auth.admin import RoleAdmin as DefaultRoleAdmin
+from fastapi_user_auth.admin import UserAdmin as DefaultUserAdmin
+from fastapi_user_auth.admin import UserInfoFormAdmin as DefaultUserInfoFormAdmin
+from fastapi_user_auth.admin import UserLoginFormAdmin as DefaultUserLoginFormAdmin
+from fastapi_user_auth.admin import UserRegFormAdmin as DefaultUserRegFormAdmin
+from fastapi_user_auth.admin.utils import get_admin_action_options_by_subject
+from fastapi_user_auth.auth import AuthRouter
+from fastapi_user_auth.auth.schemas import SystemUserEnum
 
 
 class UserAuthApp(AdminApp, AuthRouter):

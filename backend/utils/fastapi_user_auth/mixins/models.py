@@ -1,13 +1,13 @@
 from datetime import datetime
 from typing import Optional
 
-from utils.fastapi_amis_admin.models import Field, SQLModel
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.models import Field, SQLModel
+from fastapi_amis_admin.utils.translation import i18n as _
 from pydantic import EmailStr, SecretStr
 from sqlalchemy import func
 from sqlmodel import AutoString
 
-from utils.fastapi_user_auth.utils.sqltypes import SecretStrType
+from fastapi_user_auth.utils.sqltypes import SecretStrType
 
 
 class PkMixin(SQLModel):

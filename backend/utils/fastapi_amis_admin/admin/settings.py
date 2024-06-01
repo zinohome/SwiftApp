@@ -3,8 +3,8 @@ from typing import Any, Union
 
 from typing_extensions import Literal
 
-from utils.fastapi_amis_admin.amis import API
-from utils.fastapi_amis_admin.utils.pydantic import PYDANTIC_V2, BaseSettings
+from fastapi_amis_admin.amis import API
+from fastapi_amis_admin.utils.pydantic import PYDANTIC_V2, BaseSettings
 
 
 class Settings(BaseSettings):

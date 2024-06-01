@@ -12,7 +12,7 @@ from sqlalchemy.orm import ColumnProperty, DeclarativeMeta, InstrumentedAttribut
 from sqlalchemy.sql import Select
 from sqlalchemy.sql.elements import Label
 
-from utils.fastapi_amis_admin.utils.pydantic import (
+from fastapi_amis_admin.utils.pydantic import (
     PYDANTIC_V2,
     ModelField,
     create_model_by_fields,

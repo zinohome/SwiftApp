@@ -3,8 +3,8 @@ from typing import Union
 from sqlalchemy_database import AsyncDatabase, Database
 from typing_extensions import overload
 
-from utils.fastapi_amis_admin.globals._sites import exists_site, get_site
-from utils.fastapi_amis_admin.globals.core import DEFAULT_ALIAS, exists_global, get_global, set_global
+from fastapi_amis_admin.globals._sites import exists_site, get_site
+from fastapi_amis_admin.globals.core import DEFAULT_ALIAS, exists_global, get_global, set_global
 
 SYNC_DB_NAME = "sync_db"
 ASYNC_DB_NAME = "async_db"

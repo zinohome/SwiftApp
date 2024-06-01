@@ -2,7 +2,7 @@ import contextlib
 from typing import Any, Callable, Dict, List, Type
 
 from fastapi import Depends, HTTPException
-from utils.fastapi_amis_admin.admin import (
+from fastapi_amis_admin.admin import (
     AdminAction,
     AdminApp,
     AutoTimeModelAdmin,
@@ -13,7 +13,7 @@ from utils.fastapi_amis_admin.admin import (
     ReadOnlyModelAdmin,
     SoftDeleteModelAdmin,
 )
-from utils.fastapi_amis_admin.amis.components import (
+from fastapi_amis_admin.amis.components import (
     Action,
     ActionType,
     ButtonToolbar,
@@ -24,11 +24,11 @@ from utils.fastapi_amis_admin.amis.components import (
     Page,
     PageSchema,
 )
-from utils.fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum
-from utils.fastapi_amis_admin.crud.base import SchemaUpdateT
-from utils.fastapi_amis_admin.crud.schema import BaseApiOut
-from utils.fastapi_amis_admin.utils.pydantic import model_fields
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.amis.constants import DisplayModeEnum, LevelEnum
+from fastapi_amis_admin.crud.base import SchemaUpdateT
+from fastapi_amis_admin.crud.schema import BaseApiOut
+from fastapi_amis_admin.utils.pydantic import model_fields
+from fastapi_amis_admin.utils.translation import i18n as _
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlmodel.sql.expression import Select
@@ -37,18 +37,18 @@ from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import NoMatchFound
 
-from utils.fastapi_user_auth.admin.actions import (
+from fastapi_user_auth.admin.actions import (
     CopyUserAuthLinkAction,
     UpdateSubDataPermAction,
     UpdateSubPagePermsAction,
     UpdateSubRolesAction,
 )
-from utils.fastapi_user_auth.admin.utils import (
+from fastapi_user_auth.admin.utils import (
     get_admin_action_options,
     update_casbin_site_grouping,
 )
-from utils.fastapi_user_auth.auth import Auth
-from utils.fastapi_user_auth.auth.models import (
+from fastapi_user_auth.auth import Auth
+from fastapi_user_auth.auth.models import (
     BaseUser,
     CasbinRule,
     CasbinSubjectRolesQuery,
@@ -57,8 +57,8 @@ from utils.fastapi_user_auth.auth.models import (
     User,
     UserRoleNameLabel,
 )
-from utils.fastapi_user_auth.auth.schemas import SystemUserEnum, UserLoginOut
-from utils.fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
+from fastapi_user_auth.auth.schemas import SystemUserEnum, UserLoginOut
+from fastapi_user_auth.mixins.admin import AuthFieldModelAdmin, AuthSelectModelAdmin
 
 
 def attach_page_head(page: Page) -> Page:

@@ -1,8 +1,8 @@
 from enum import Enum
 from typing import Optional
 
-from utils.fastapi_amis_admin.utils.pydantic import PYDANTIC_V2
-from utils.fastapi_amis_admin.utils.translation import i18n as _
+from fastapi_amis_admin.utils.pydantic import PYDANTIC_V2
+from fastapi_amis_admin.utils.translation import i18n as _
 from pydantic import BaseModel, SecretStr
 from sqlmodel import Field
 

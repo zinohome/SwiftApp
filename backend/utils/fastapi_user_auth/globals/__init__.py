@@ -1,10 +1,10 @@
 from typing import Type
 
-from utils.fastapi_amis_admin import globals as g
+from fastapi_amis_admin import globals as g
 
-from utils.fastapi_user_auth.admin import AuthAdminSite
-from utils.fastapi_user_auth.auth import Auth
-from utils.fastapi_user_auth.auth.models import User
+from fastapi_user_auth.admin import AuthAdminSite
+from fastapi_user_auth.auth import Auth
+from fastapi_user_auth.auth.models import User
 
 site: AuthAdminSite
 

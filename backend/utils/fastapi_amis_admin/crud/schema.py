@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 from warnings import warn
 
-from utils.fastapi_amis_admin.utils.pydantic import AllowExtraModelMixin, GenericModel
+from fastapi_amis_admin.utils.pydantic import AllowExtraModelMixin, GenericModel
 
 _T = TypeVar("_T")
 
