@@ -9,7 +9,7 @@
 #  @Software: SwiftApp
 
 from fastapi import APIRouter
-from fastapi_amis_admin.admin import AdminApp
+from utils.fastapi_amis_admin.admin import AdminApp
 
 from apps.admin.groups import apphome, contractadmingroup
 

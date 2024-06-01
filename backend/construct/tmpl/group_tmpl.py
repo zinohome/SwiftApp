@@ -8,10 +8,10 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 from fastapi import APIRouter
-from fastapi_amis_admin.crud import SqlalchemyCrud
+from utils.fastapi_amis_admin.crud import SqlalchemyCrud
 from core.globals import site
-from fastapi_amis_admin import amis, admin
-from fastapi_amis_admin.admin import AdminApp
+from utils.fastapi_amis_admin import amis, admin
+from utils.fastapi_amis_admin.admin import AdminApp
 from construct.app import App
 from utils.log import log as log
 {% for model in models %}

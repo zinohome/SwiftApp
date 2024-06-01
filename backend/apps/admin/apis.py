@@ -9,7 +9,7 @@
 #  @Software: SwiftApp
 
 from fastapi import APIRouter
-from fastapi_amis_admin.globals.deps import AsyncSess, SyncSess
+from utils.fastapi_amis_admin.globals.deps import AsyncSess, SyncSess
 
 router = APIRouter()
 

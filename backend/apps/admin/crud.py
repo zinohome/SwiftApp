@@ -9,7 +9,7 @@
 #  @Software: SwiftApp
 # 注册API
 from fastapi import APIRouter
-from fastapi_amis_admin.crud import SqlalchemyCrud
+from utils.fastapi_amis_admin.crud import SqlalchemyCrud
 
 from apps.admin.models.contractdetail import Contractdetail
 from core.globals import site

@@ -8,23 +8,23 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: SwiftApp
 from fastapi._compat import ModelField
-from fastapi_amis_admin.admin import AdminAction
-from fastapi_amis_admin.crud import CrudEnum
-from fastapi_amis_admin.crud.base import SchemaFilterT
-from fastapi_amis_admin.crud.parser import TableModelParser
-from fastapi_amis_admin.utils.pydantic import model_fields
+from utils.fastapi_amis_admin.admin import AdminAction
+from utils.fastapi_amis_admin.crud import CrudEnum
+from utils.fastapi_amis_admin.crud.base import SchemaFilterT
+from utils.fastapi_amis_admin.crud.parser import TableModelParser
+from utils.fastapi_amis_admin.utils.pydantic import model_fields
 from pydantic._internal._decorators import mro
 
 from apps.admin.models.contract import Contract
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional, TYPE_CHECKING, Union, Dict, Any
-from fastapi_amis_admin import admin, amis
-from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
+from utils.fastapi_amis_admin import admin, amis
+from utils.fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
     TableCRUD, TabsModeEnum, Form, AmisAPI, DisplayModeEnum, InputExcel, InputTable, Page, FormItem, SchemaNode
 from starlette.requests import Request
 import simplejson as json
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 from apps.admin.pages.contractdetailadmin import ContractdetailAdmin
 

@@ -10,8 +10,8 @@
 from apps.admin.groups.apphome import AppHome
 from apps.admin.groups.contractadmingroup import Contractadmingroup
 from core.globals import site
-from fastapi_amis_admin import amis, admin
-from fastapi_amis_admin.admin import AdminApp
+from utils.fastapi_amis_admin import amis, admin
+from utils.fastapi_amis_admin.admin import AdminApp
 from construct.app import App
 from utils.log import log as log
 

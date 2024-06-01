@@ -9,9 +9,9 @@
 #  @Software: SwiftApp
 import traceback
 
-from fastapi_amis_admin.admin import PageAdmin, ModelAdmin
-from fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
-from fastapi_amis_admin.crud.parser import TableModelT
+from utils.fastapi_amis_admin.admin import PageAdmin, ModelAdmin
+from utils.fastapi_amis_admin.crud.base import SchemaCreateT, SchemaUpdateT
+from utils.fastapi_amis_admin.crud.parser import TableModelT
 from sqlalchemy import Select, update, text
 from sqlmodel import Session, select
 
@@ -20,12 +20,12 @@ from apps.admin.models.contractdetail import Contractdetail
 from apps.admin.swiftadmin import SwiftAdmin
 from core.globals import site
 from typing import List, Optional, TYPE_CHECKING, Dict, Union, Any
-from fastapi_amis_admin import admin
-from fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
+from utils.fastapi_amis_admin import admin
+from utils.fastapi_amis_admin.amis import PageSchema, TableColumn, ActionType, Action, Dialog, SizeEnum, Drawer, LevelEnum, \
     TableCRUD, Page, TabsModeEnum
 from starlette.requests import Request
 import simplejson as json
-from fastapi_amis_admin.utils.translation import i18n as _
+from utils.fastapi_amis_admin.utils.translation import i18n as _
 from utils.log import log as log
 
 class ContractdetailAdmin(SwiftAdmin):
