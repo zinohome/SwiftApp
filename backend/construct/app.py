@@ -153,32 +153,36 @@ class App():
         tmplpath = os.path.abspath(os.path.join(basepath, 'tmpl'))
         # 输出目录 backend/construct/output
         outputpath = os.path.abspath(os.path.join(basepath, 'output'))
-        log.debug("Generate pages Starting ...")
-        for group in self.Consdict['Groups']:
-            for model in group['models']:
-                log.debug("Generate page for page: %s" % model['name'])
-                env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
-                template = env.get_template('page_tmpl.py')
-                gencode = template.render(model)
-                pagefilepath = os.path.abspath(
-                    os.path.join(outputpath, 'pages/' + model['name'].strip().lower() + "admin.py"))
-                with open(pagefilepath, 'w', encoding='utf-8') as gencodefile:
-                    gencodefile.write(gencode)
-                    gencodefile.close()
-                #log.debug(gencode)
-                for submodel in model['submodels']:
-                    log.debug("Generate page for page: %s" % submodel['name'])
+        try:
+            log.debug("Generate pages Starting ...")
+            for group in self.Consdict['Groups']:
+                for model in group['models']:
+                    log.debug("Generate page for page: %s" % model['name'])
                     env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
                     template = env.get_template('page_tmpl.py')
-                    gencode = template.render(submodel)
+                    gencode = template.render(model)
                     pagefilepath = os.path.abspath(
-                        os.path.join(outputpath, 'pages/' + submodel['name'].strip().lower() + "admin.py"))
+                        os.path.join(outputpath, 'pages/' + model['name'].strip().lower() + "admin.py"))
                     with open(pagefilepath, 'w', encoding='utf-8') as gencodefile:
-                        pass
                         gencodefile.write(gencode)
                         gencodefile.close()
                     #log.debug(gencode)
-        log.debug("Generate pages Completed ...")
+                    for submodel in model['submodels']:
+                        log.debug("Generate page for page: %s" % submodel['name'])
+                        env = Environment(loader=FileSystemLoader(tmplpath), trim_blocks=True, lstrip_blocks=True)
+                        template = env.get_template('page_tmpl.py')
+                        gencode = template.render(submodel)
+                        pagefilepath = os.path.abspath(
+                            os.path.join(outputpath, 'pages/' + submodel['name'].strip().lower() + "admin.py"))
+                        with open(pagefilepath, 'w', encoding='utf-8') as gencodefile:
+                            pass
+                            gencodefile.write(gencode)
+                            gencodefile.close()
+                        #log.debug(gencode)
+            log.debug("Generate pages Completed ...")
+        except Exception as exp:
+            print('Exception at Appdef.gen_pages() %s ' % exp)
+            traceback.print_exc()
 
 
 if __name__ == '__main__':
