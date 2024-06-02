@@ -22,7 +22,7 @@ from core import i18n as _
 class SwiftSQLModel(SQLModel):
     class Config:
         use_enum_values = True
-        orm_mode = True
+        from_attributes = True
         arbitrary_types_allowed = True
 
 class Contract(SwiftSQLModel, table=True):
