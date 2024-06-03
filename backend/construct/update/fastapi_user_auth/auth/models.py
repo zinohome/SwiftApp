@@ -1,3 +1,4 @@
+#  @Software: SwiftApp
 from typing import Optional
 
 from fastapi_amis_admin.amis.components import ColumnImage, InputImage

@@ -11,6 +11,7 @@
 
 import os
 import traceback
+import shutil
 import fastapi_amis_admin.admin.admin as file_admin
 import fastapi_amis_admin.crud._sqlalchemy as file_sqlalchemy
 import fastapi_user_auth.admin.site as file_site
@@ -37,7 +38,7 @@ def singleton(cls):
 @singleton
 class Modelchecker():
 
-    def check_models(self):
+    async def check_models(self):
         # 定义文件目录 backend/construct
         basepath = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
         # 应用目录 backend
@@ -46,13 +47,46 @@ class Modelchecker():
         updatepath = os.path.abspath(os.path.join(apppath, 'construct/update'))
         log.debug("Check models Starting ...")
         try:
-            log.debug(updatepath)
+            for tfile in (file_admin, file_sqlalchemy, file_site, file_models):
+                with open(tfile.__file__, "r") as rfile:
+                    fline = rfile.readline()[0:12]
+                    if fline != "#  @Software":
+                        match tfile.__name__.split('.')[-1]:
+                            case "admin":
+                                if os.path.exists(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/admin/admin.py'))):
+                                    log.debug("Check model: %s ..." %tfile.__file__)
+                                    shutil.copy(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/admin/admin.py')),
+                                        tfile.__file__)
+                            case "_sqlalchemy":
+                                if os.path.exists(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/crud/_sqlalchemy.py'))):
+                                    log.debug("Check model: %s ..." % tfile.__file__)
+                                    shutil.copy(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/crud/_sqlalchemy.py')),
+                                        tfile.__file__)
+                            case "site":
+                                if os.path.exists(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_user_auth/admin/site.py'))):
+                                    log.debug("Check model: %s ..." % tfile.__file__)
+                                    shutil.copy(
+                                        os.path.abspath(
+                                            os.path.join(updatepath, 'fastapi_user_auth/admin/site.py')),
+                                        tfile.__file__)
+                            case "models":
+                                if os.path.exists(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_user_auth/auth/models.py'))):
+                                    log.debug("Check model: %s ..." % tfile.__file__)
+                                    shutil.copy(
+                                        os.path.abspath(
+                                            os.path.join(updatepath, 'fastapi_user_auth/auth/models.py')),
+                                        tfile.__file__)
+                        #if os.path.exists(test_file.txt)
         except Exception as exp:
             print('Exception at Modelchecker.check_models() %s ' % exp)
             traceback.print_exc()
 
-    if __name__ == '__main__':
-        log.debug(file_admin.__file__)
-        log.debug(file_sqlalchemy.__file__)
-        log.debug(file_site.__file__)
-        log.debug(file_models.__file__)
+if __name__ == '__main__':
+    mc = Modelchecker()
+    #mc.check_models()

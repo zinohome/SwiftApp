@@ -16,6 +16,7 @@ from starlette.staticfiles import StaticFiles
 from core.globals import site, auth
 from core.settings import settings
 from utils.log import log as log
+from utils.modelchecker import Modelchecker
 
 app = FastAPI(debug=settings.debug)
 # 在app应用下每条请求处理之前都附加`request.auth`和`request.user`对象
@@ -42,6 +43,8 @@ site.mount_app(app)
 
 @app.on_event("startup")
 async def startup():
+    mc = Modelchecker()
+    await mc.check_models()
     await site.db.async_run_sync(SQLModel.metadata.create_all, is_session=False)
     # 创建默认管理员,用户名: admin,密码: admin, 请及时修改密码!!!
     await auth.create_role_user("admin")
