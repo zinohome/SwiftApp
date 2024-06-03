@@ -38,7 +38,7 @@ def singleton(cls):
 @singleton
 class Modelchecker():
 
-    async def check_models(self):
+    def check_models(self):
         # 定义文件目录 backend/construct
         basepath = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
         # 应用目录 backend
@@ -83,6 +83,7 @@ class Modelchecker():
                                             os.path.join(updatepath, 'fastapi_user_auth/auth/models.py')),
                                         tfile.__file__)
                         #if os.path.exists(test_file.txt)
+            log.debug("Check models completed ！")
         except Exception as exp:
             print('Exception at Modelchecker.check_models() %s ' % exp)
             traceback.print_exc()
