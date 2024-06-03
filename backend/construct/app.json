@@ -24,6 +24,38 @@
   },
   "Groups": [
     {
+      "group_name": "Customeradmingroup",
+      "group_schema": "Customer",
+      "label": "客户管理",
+      "title": "客户管理",
+      "icon": "fa fa-bolt",
+      "sort": 99,
+      "router_prefix": "/customer",
+      "models": [
+        {
+          "name": "customer",
+          "group_schema": "Customer",
+          "label": "客户管理",
+          "title": "客户管理",
+          "icon": "fa fa-bolt",
+          "sort": 99,
+          "model": "Customer",
+          "model_file": "models/customer.json",
+          "pk_name": "customer_id",
+          "list_per_page": 10,
+          "list_display": "Customer.customer_id, Customer.customer_number, Customer.customer_altname, Customer.customer_factory, Customer.customer_contact, Customer.customer_phone",
+          "search_fields": "Customer.customer_id, Customer.customer_number, Customer.customer_altname, Customer.customer_factory, Customer.customer_contact, Customer.customer_phone",
+          "parent_class": "None",
+          "print": false,
+          "enable_bulk_create": false,
+          "schema_read": true,
+          "action_type": "Drawer",
+          "sub_include": [],
+          "submodels": []
+        }
+      ]
+    },
+    {
       "group_name": "Contractadmingroup",
       "group_schema": "Contract",
       "label": "合同管理",
@@ -89,7 +121,7 @@
       "name": "contact_type",
       "cname": "合同类型",
       "type": "List",
-      "value": "成品内销合同,面料合同,辅料合同"
+      "value": "外销合同,成品内销合同,面料合同,辅料合同"
     },
     {
       "name": "supplier_name",
