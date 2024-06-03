@@ -38,11 +38,4 @@ class {{ group_name }}(admin.AdminApp):
         self.register_admin({{ submodel.name|trim|capitalize }}Admin)
 {% endfor %}
 {% endfor %}
-        #contractdetailAdmin_crud = ContractdetailAdmin(self.app).register_crud()
-        #self.router.include_router(contractdetailAdmin_crud.router)
 
-        '''
-        contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine,
-                                             pk_name='contractdetail_id').register_crud()
-        self.router.include_router(contractdetail_crud.router)
-        '''
