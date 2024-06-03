@@ -30,11 +30,3 @@ class Contractadmingroup(admin.AdminApp):
         super().__init__(app)
         self.register_admin(ContractAdmin)
         self.register_admin(ContractdetailAdmin)
-        #contractdetailAdmin_crud = ContractdetailAdmin(self.app).register_crud()
-        #self.router.include_router(contractdetailAdmin_crud.router)
-
-        '''
-        contractdetail_crud = SqlalchemyCrud(model=Contractdetail, engine=site.engine,
-                                             pk_name='contractdetail_id').register_crud()
-        self.router.include_router(contractdetail_crud.router)
-        '''
