@@ -9,6 +9,7 @@
 #  @Software: SwiftApp
 from apps.admin.groups.apphome import AppHome
 from apps.admin.groups.contractadmingroup import Contractadmingroup
+from apps.admin.groups.customeradmingroup import Customeradmingroup
 from core.globals import site
 from fastapi_amis_admin import amis, admin
 from fastapi_amis_admin.admin import AdminApp
@@ -17,5 +18,6 @@ from utils.log import log as log
 
 appdef = App()
 
-site.register_admin(AppHome, Contractadmingroup)
+site.register_admin(AppHome)
+site.register_admin(Contractadmingroup, Customeradmingroup)
 
