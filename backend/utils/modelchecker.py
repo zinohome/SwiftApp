@@ -14,6 +14,7 @@ import traceback
 import shutil
 import fastapi_amis_admin.admin.admin as file_admin
 import fastapi_amis_admin.crud._sqlalchemy as file_sqlalchemy
+import fastapi_amis_admin.crud.parser as file_parser
 import fastapi_user_auth.admin.site as file_site
 import fastapi_user_auth.auth.models as file_models
 
@@ -47,7 +48,7 @@ class Modelchecker():
         updatepath = os.path.abspath(os.path.join(apppath, 'construct/update'))
         log.debug("Check models Starting ...")
         try:
-            for tfile in (file_admin, file_sqlalchemy, file_site, file_models):
+            for tfile in (file_admin, file_sqlalchemy, file_parser, file_site, file_models):
                 with open(tfile.__file__, "r") as rfile:
                     fline = rfile.readline()[0:12]
                     if fline != "#  @Software":
@@ -65,6 +66,13 @@ class Modelchecker():
                                     log.debug("Check model: %s ..." % tfile.__file__)
                                     shutil.copy(
                                         os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/crud/_sqlalchemy.py')),
+                                        tfile.__file__)
+                            case "parser":
+                                if os.path.exists(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/crud/parser.py'))):
+                                    log.debug("Check model: %s ..." % tfile.__file__)
+                                    shutil.copy(
+                                        os.path.abspath(os.path.join(updatepath, 'fastapi_amis_admin/crud/parser.py')),
                                         tfile.__file__)
                             case "site":
                                 if os.path.exists(
