@@ -89,7 +89,7 @@ async def swagger_ui_redirect():
 
 # 4.配置 Redoc CDN
 @app.get("/apiredoc", include_in_schema=False)
-async def custom_swagger_ui_html():
+async def custom_redoc_html():
     return get_redoc_html(
         openapi_url=app.openapi_url,
         title=f"{app.title} - ReDoc",
