@@ -1,3 +1,4 @@
+#  @Software: SwiftApp
 import datetime
 from functools import lru_cache
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Type, TypeVar, Union
