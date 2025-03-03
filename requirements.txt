@@ -2,7 +2,6 @@ fastapi_amis_admin>=0.7.2
 fastapi_user_auth>=0.7.3
 fastapi-user-auth[jwt]
 fastapi-scheduler>=0.0.15
-pydantic_settings>=2.1.0
 uvicorn>=0.27.1
 gunicorn>=21.2.0
 hypercorn>=0.16.0
@@ -14,8 +13,9 @@ starlette_exporter>=0.21.0
 jaeger-client>=4.8.0
 opentracing_instrumentation>=3.3.1
 Starlette-OpenTracing>=0.1.0
-pydantic>=2.0
+pydantic==2.3.0
+pydantic_settings>=2.1.0
 aiomysql>=0.2.0
 sqlmodelx>=0.0.11
-sqlmodel>=0.0.23
+sqlmodel==0.0.19
 nest_asyncio>=1.6.0
